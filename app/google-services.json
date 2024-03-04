@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "556857835465",
+    "project_id": "taskeaze",
+    "storage_bucket": "taskeaze.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:556857835465:android:8c2927c071a3c022f23218",
+        "android_client_info": {
+          "package_name": "com.ads.taskeaze"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWgyvv_efMIx5EcpYK174NVh7tJcngQ1M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
