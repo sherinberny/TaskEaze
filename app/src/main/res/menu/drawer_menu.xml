@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_my_profile"
+            android:icon="@drawable/ic_profile_icon"
+            android:title="@string/myprofile_txt" />
+
+        <item
+            android:id="@+id/nav_leaves"
+            android:icon="@drawable/ic_nav_leave"
+            android:title="@string/leaves_txt"
+            android:visible="false" />
+
+        <item
+            android:id="@+id/nav_payslips"
+            android:icon="@drawable/ic_payslip"
+            android:visible="false"
+            android:title="@string/payslip_txt" />
+    </group>
+
+
+</menu>

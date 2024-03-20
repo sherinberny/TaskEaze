@@ -13,4 +13,18 @@
     <string name="resend_otp_txt">Resend OTP</string>
     <string name="countrycode">+1</string>
     <string name="skip_otp">Skip OTP</string>
+    <string name="home_txt">Home</string>
+    <string name="performance_txt">Performance</string>
+    <string name="chat_txt">Chat</string>
+    <string name="claim_txt">Claim</string>
+    <string name="myprofile_txt">My Profile</string>
+    <string name="payslip_txt">Payslips</string>
+    <string name="leaves_txt">Leaves</string>
+    <string name="nav_header_desc">Taskeaze image</string>
+    <string name="navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="navigation_drawer_close">Close Navigation Drawer</string>
+    <string name="meetings_txt">Meetings</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="version_txt">Version</string>
 </resources>

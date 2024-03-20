@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:title="@string/home_txt" />
+
+    <item
+        android:id="@+id/navigation_performance"
+        android:title="@string/performance_txt"/>
+
+    <item
+        android:id="@+id/navigation_meetings"
+        android:title="@string/meetings_txt"/>
+
+
+    <item
+        android:id="@+id/navigation_claim"
+        android:title="@string/claim_txt" />
+
+    <item
+        android:id="@+id/navigation_chat"
+        android:title="@string/chat_txt" />
+
+</menu>
