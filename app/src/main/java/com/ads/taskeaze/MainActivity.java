@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             Log.d("tag","msg"+item.getItemId());
 
-
+// Added as static field
             switch (item.getItemId()) {
 
                 case 2131231039:
