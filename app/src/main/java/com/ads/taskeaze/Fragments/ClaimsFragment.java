@@ -21,11 +21,7 @@ import com.ads.taskeaze.R;
 import com.ads.taskeaze.RegistrationActivity;
 import com.ads.taskeaze.model.ClaimDAO;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ClaimsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class ClaimsFragment extends Fragment {
 
     private EditText editTextDate;
