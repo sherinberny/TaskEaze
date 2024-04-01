@@ -26,5 +26,7 @@
     <string name="meetings_txt">Meetings</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment_claim">Claim Submission</string>
+    <string name="meetings">Meetings</string>
     <string name="version_txt">Version</string>
 </resources>

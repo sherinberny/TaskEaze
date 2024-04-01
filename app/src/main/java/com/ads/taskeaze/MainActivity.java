@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -36,11 +37,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public ViewpagerAdapter adapter = null;
     public Toolbar toolbar = null;
     String version;
+    int claimId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         findviewbyid();
@@ -131,35 +134,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+
             getSupportActionBar().setTitle("");
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
                 getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             }
+            Log.d("tag","msg"+item.getItemId());
+
+
             switch (item.getItemId()) {
-               /* case R.id.navigation_home:
+
+                case 2131231039:
                     getSupportActionBar().setTitle(getResources().getString(R.string.home_txt));
                     viewPager.setCurrentItem(0, true);
                     break;
-                case R.id.navigation_performance:
+                case 2131231041:
                     getSupportActionBar().setTitle(getResources().getString(R.string.performance_txt));
                     viewPager.setCurrentItem(1, true);
                     break;
-                case R.id.navigation_meetings:
+                case 2131231040:
                     getSupportActionBar().setTitle(getResources().getString(R.string.meetings_txt));
                     viewPager.setCurrentItem(2, true);
                     break;
 
-                case R.id.navigation_claim:
+                case 2131231037:
                     getSupportActionBar().setTitle(getResources().getString(R.string.claim_txt));
                     viewPager.setCurrentItem(3, true);
                     break;
 
-                case R.id.navigation_chat:
+                case 2131231036:
                     getSupportActionBar().setTitle(getResources().getString(R.string.chat_txt));
                     viewPager.setCurrentItem(4, true);
-                    break;*/
+                    break;
             }
             return true;
         }
