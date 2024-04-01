@@ -21,7 +21,7 @@ import com.ads.taskeaze.R;
 import com.ads.taskeaze.RegistrationActivity;
 import com.ads.taskeaze.model.ClaimDAO;
 
-
+// Added code for claims
 public class ClaimsFragment extends Fragment {
 
     private EditText editTextDate;

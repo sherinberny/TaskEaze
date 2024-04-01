@@ -3,7 +3,7 @@ package com.ads.taskeaze.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
+// added db
 public class ClaimsDatabase extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "claims.db";

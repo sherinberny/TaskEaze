@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.ads.taskeaze.database.ClaimsDatabase;
-
+// Added DAO
 public class ClaimDAO {
 
     private ClaimsDatabase claimdb;
