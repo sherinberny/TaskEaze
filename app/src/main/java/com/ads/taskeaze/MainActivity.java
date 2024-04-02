@@ -146,7 +146,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 // Added as static fields
             switch (item.getItemId()) {
+/* case R.id.navigation_home:
+                    getSupportActionBar().setTitle(getResources().getString(R.string.home_txt));
+                    viewPager.setCurrentItem(0, true);
+                    break;
+                case R.id.navigation_performance:
+                    getSupportActionBar().setTitle(getResources().getString(R.string.performance_txt));
+                    viewPager.setCurrentItem(1, true);
+                    break;
+                case R.id.navigation_meetings:
+                    getSupportActionBar().setTitle(getResources().getString(R.string.meetings_txt));
+                    viewPager.setCurrentItem(2, true);
+                    break;
 
+                case R.id.navigation_claim:
+                    getSupportActionBar().setTitle(getResources().getString(R.string.claim_txt));
+                    viewPager.setCurrentItem(3, true);
+                    break;
+
+                case R.id.navigation_chat:
+                    getSupportActionBar().setTitle(getResources().getString(R.string.chat_txt));
+                    viewPager.setCurrentItem(4, true);
+                    break;*/
                 case 2131231039:
                     getSupportActionBar().setTitle(getResources().getString(R.string.home_txt));
                     viewPager.setCurrentItem(0, true);
