@@ -146,7 +146,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 // Added as static fields
             switch (item.getItemId()) {
-/* case R.id.navigation_home:
+/*
+ case R.id.navigation_home:
                     getSupportActionBar().setTitle(getResources().getString(R.string.home_txt));
                     viewPager.setCurrentItem(0, true);
                     break;
