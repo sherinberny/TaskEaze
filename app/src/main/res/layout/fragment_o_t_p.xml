@@ -46,7 +46,7 @@
         android:gravity="center_horizontal"
         android:text="@string/otp_sent_txt"
         android:textAlignment="center"
-        android:textColor="@color/material_dynamic_neutral80"
+        android:textColor="@color/colorLiteGrey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtViewOTP" />
@@ -68,7 +68,7 @@
             android:id="@+id/numberEdit_IV"
             android:layout_width="22dp"
             android:layout_height="22dp"
-            android:layout_marginLeft="2dp"
+            android:layout_marginStart="2dp"
             app:srcCompat="@drawable/ic_pencil"/>
 
     </LinearLayout>
@@ -86,7 +86,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:cursorVisible="true"
-            android:hint="00000"
             android:layout_marginTop="12dp"
             android:inputType="numberDecimal"
             android:textColor="@color/black"
