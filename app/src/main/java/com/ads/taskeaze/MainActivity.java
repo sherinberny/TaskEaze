@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         getSupportActionBar().setTitle(getResources().getString(R.string.home_txt));
         viewPager.setCurrentItem(0, true);
-        navigation.getMenu().findItem(R.id.navigation_home);
+        navigation.getMenu().findItem(R.id.navigation_home).setIcon(R.drawable.ic_home);
         navigation.getMenu().findItem(R.id.navigation_performance);
         navigation.getMenu().findItem(R.id.navigation_claim);
         navigation.getMenu().findItem(R.id.navigation_chat);
