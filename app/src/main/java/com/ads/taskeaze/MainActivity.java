@@ -95,9 +95,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setTitle(getResources().getString(R.string.home_txt));
         viewPager.setCurrentItem(0, true);
         navigation.getMenu().findItem(R.id.navigation_home).setIcon(R.drawable.ic_home);
-        navigation.getMenu().findItem(R.id.navigation_performance);
-        navigation.getMenu().findItem(R.id.navigation_claim);
-        navigation.getMenu().findItem(R.id.navigation_chat);
+        navigation.getMenu().findItem(R.id.navigation_performance).setIcon(R.drawable.ic_performance);
+        navigation.getMenu().findItem(R.id.navigation_meetings).setIcon(R.drawable.ic_meeting);
+        navigation.getMenu().findItem(R.id.navigation_claim).setIcon(R.drawable.ic_claim);
+        navigation.getMenu().findItem(R.id.navigation_chat).setIcon(R.drawable.ic_chat);
 
     }
 
@@ -136,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
 
-            getSupportActionBar().setTitle("");
+            getSupportActionBar().setTitle("Home");
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
                 getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -144,54 +145,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             Log.d("tag","msg"+item.getItemId());
 
-// Added as static fields
-            switch (item.getItemId()) {
-/*
- case R.id.navigation_home:
-                    getSupportActionBar().setTitle(getResources().getString(R.string.home_txt));
-                    viewPager.setCurrentItem(0, true);
-                    break;
-                case R.id.navigation_performance:
-                    getSupportActionBar().setTitle(getResources().getString(R.string.performance_txt));
-                    viewPager.setCurrentItem(1, true);
-                    break;
-                case R.id.navigation_meetings:
-                    getSupportActionBar().setTitle(getResources().getString(R.string.meetings_txt));
-                    viewPager.setCurrentItem(2, true);
-                    break;
-
-                case R.id.navigation_claim:
-                    getSupportActionBar().setTitle(getResources().getString(R.string.claim_txt));
-                    viewPager.setCurrentItem(3, true);
-                    break;
-
-                case R.id.navigation_chat:
-                    getSupportActionBar().setTitle(getResources().getString(R.string.chat_txt));
-                    viewPager.setCurrentItem(4, true);
-                    break;*/
-                case 2131231039:
-                    getSupportActionBar().setTitle(getResources().getString(R.string.home_txt));
-                    viewPager.setCurrentItem(0, true);
-                    break;
-                case 2131231041:
-                    getSupportActionBar().setTitle(getResources().getString(R.string.performance_txt));
-                    viewPager.setCurrentItem(1, true);
-                    break;
-                case 2131231040:
-                    getSupportActionBar().setTitle(getResources().getString(R.string.meetings_txt));
-                    viewPager.setCurrentItem(2, true);
-                    break;
-
-                case 2131231037:
-                    getSupportActionBar().setTitle(getResources().getString(R.string.claim_txt));
-                    viewPager.setCurrentItem(3, true);
-                    break;
-
-                case 2131231036:
-                    getSupportActionBar().setTitle(getResources().getString(R.string.chat_txt));
-                    viewPager.setCurrentItem(4, true);
-                    break;
+            if(item.getItemId() == R.id.navigation_home){
+                getSupportActionBar().setTitle(getResources().getString(R.string.home_txt));
+                viewPager.setCurrentItem(0, true);
             }
+            else if(item.getItemId() == R.id.navigation_performance){
+                getSupportActionBar().setTitle(getResources().getString(R.string.performance_txt));
+                viewPager.setCurrentItem(1, true);
+            }
+            else if(item.getItemId() == R.id.navigation_meetings){
+                getSupportActionBar().setTitle(getResources().getString(R.string.performance_txt));
+                viewPager.setCurrentItem(2, true);
+            }
+            else if(item.getItemId() == R.id.navigation_claim){
+                getSupportActionBar().setTitle(getResources().getString(R.string.performance_txt));
+                viewPager.setCurrentItem(3, true);
+            }
+            else if(item.getItemId() == R.id.navigation_chat){
+                getSupportActionBar().setTitle(getResources().getString(R.string.performance_txt));
+                viewPager.setCurrentItem(4, true);
+            }
+
             return true;
         }
 
