@@ -13,13 +13,11 @@
         <item
             android:id="@+id/nav_leaves"
             android:icon="@drawable/ic_nav_leave"
-            android:title="@string/leaves_txt"
-            android:visible="false" />
+            android:title="@string/leaves_txt" />
 
         <item
             android:id="@+id/nav_payslips"
             android:icon="@drawable/ic_payslip"
-            android:visible="false"
             android:title="@string/payslip_txt" />
     </group>
 

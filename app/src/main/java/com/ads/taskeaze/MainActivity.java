@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public ViewpagerAdapter adapter = null;
     public Toolbar toolbar = null;
     String version;
-    int claimId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,10 +71,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         menuItemProfile.setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_profile_icon));
 
         MenuItem menuItemLeaves = menu.findItem(R.id.nav_leaves);
-        menuItemProfile.setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_nav_leave));
+        menuItemLeaves.setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_nav_leave));
 
         MenuItem menuItemPayslips = menu.findItem(R.id.nav_payslips);
-        menuItemProfile.setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_payslip));
+        menuItemPayslips.setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_payslip));
 
         ((AppCompatTextView) findViewById(R.id.activity_base_app_version_name_id)).setText(getResources().getString(R.string.version_txt) + " \t\t~\t\t" + version);
 
@@ -143,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             }
-            Log.d("tag","msg"+item.getItemId());
+            Log.d("tag","Id -- "+item.getItemId());
 
             if(item.getItemId() == R.id.navigation_home){
                 getSupportActionBar().setTitle(getResources().getString(R.string.home_txt));
@@ -154,15 +153,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 viewPager.setCurrentItem(1, true);
             }
             else if(item.getItemId() == R.id.navigation_meetings){
-                getSupportActionBar().setTitle(getResources().getString(R.string.performance_txt));
+                getSupportActionBar().setTitle(getResources().getString(R.string.meetings_txt));
                 viewPager.setCurrentItem(2, true);
             }
             else if(item.getItemId() == R.id.navigation_claim){
-                getSupportActionBar().setTitle(getResources().getString(R.string.performance_txt));
+                getSupportActionBar().setTitle(getResources().getString(R.string.claim_txt));
                 viewPager.setCurrentItem(3, true);
             }
             else if(item.getItemId() == R.id.navigation_chat){
-                getSupportActionBar().setTitle(getResources().getString(R.string.performance_txt));
+                getSupportActionBar().setTitle(getResources().getString(R.string.chat_txt));
                 viewPager.setCurrentItem(4, true);
             }
 
