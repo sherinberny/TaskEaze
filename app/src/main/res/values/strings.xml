@@ -29,4 +29,8 @@
     <string name="hello_blank_fragment_claim">Claim Submission</string>
     <string name="meetings">Meetings</string>
     <string name="version_txt">Version</string>
+    <string name="justErrorCode">Error Code</string>
+    <string name="alert">Alert</string>
+    <string name="otp_sent_txt">"Enter 6 digit OTP send to - "</string>
+    <string name="OtpVerification">OTP Verification</string>
 </resources>
