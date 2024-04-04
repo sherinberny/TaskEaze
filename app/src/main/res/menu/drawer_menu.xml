@@ -19,6 +19,11 @@
             android:id="@+id/nav_payslips"
             android:icon="@drawable/ic_payslip"
             android:title="@string/payslip_txt" />
+        <item
+            android:id="@+id/nav_attendance"
+            android:icon="@drawable/ic_attendance"
+            android:title="@string/attendance_txt" />
+
     </group>
 
 

@@ -33,4 +33,5 @@
     <string name="alert">Alert</string>
     <string name="otp_sent_txt">"Enter 6 digit OTP send to - "</string>
     <string name="OtpVerification">OTP Verification</string>
+    <string name="attendance_txt">Attendance</string>
 </resources>

@@ -76,6 +76,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         MenuItem menuItemPayslips = menu.findItem(R.id.nav_payslips);
         menuItemPayslips.setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_payslip));
 
+        MenuItem menuItemAttendance = menu.findItem(R.id.nav_attendance);
+        menuItemAttendance.setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_attendance));
+
+
         ((AppCompatTextView) findViewById(R.id.activity_base_app_version_name_id)).setText(getResources().getString(R.string.version_txt) + " \t\t~\t\t" + version);
 
 
