@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.ads.taskeaze.MainActivity;
 import com.ads.taskeaze.R;
 import com.ads.taskeaze.RegistrationActivity;
+import com.ads.taskeaze.ReimbursementDetailsActivity;
 import com.ads.taskeaze.model.ClaimDAO;
 
 // Added code for claims
@@ -66,12 +67,36 @@ public class ClaimsFragment extends Fragment {
         buttonReimburse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Your reimbursement logic here
-                // For example, you can show a toast indicating reimbursement
-                Toast.makeText(getActivity(), "Claim reimbursed!", Toast.LENGTH_SHORT).show();
+                String date = editTextDate.getText().toString();
+                double amount = Double.parseDouble(editTextAmount.getText().toString());
+                String description = editTextDescription.getText().toString();
+
+                // Calculate reimbursement amount (example logic)
+                double reimbursementAmount = calculateReimbursementAmount(amount, description);
+
+                // Start ReimbursementDetailsActivity and pass claim details and reimbursement amount
+                Intent intent = new Intent(getActivity(), ReimbursementDetailsActivity.class);
+                intent.putExtra("date", date);
+                intent.putExtra("amount", amount);
+                intent.putExtra("description", description);
+                intent.putExtra("reimbursementAmount", reimbursementAmount);
+                startActivity(intent);
             }
         });
         return rootView;
+
+
+    }
+
+    // Method to calculate reimbursement amount (example logic)
+    private double calculateReimbursementAmount(double amount, String description) {
+        // Your reimbursement logic here
+        // For demonstration, let's assume reimbursement amount is 75% if description contains specific keyword
+        if (description.toLowerCase().contains("personal")) {
+            return amount * 0.75; // 75% of claim amount
+        } else {
+            return 0; // No reimbursement
+        }
     }
 public void submitClaim(){
     // Get input values

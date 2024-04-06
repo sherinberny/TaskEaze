@@ -5,12 +5,7 @@
     android:layout_height="wrap_content"
     tools:context=".Fragments.ClaimsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <!--    <TextView-->
-    <!--        android:id="@+id/txtClaim"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        added layout />-->
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -68,11 +63,7 @@
                 android:lines="3" />
 
             <!-- Attachments -->
-            <Button
-                android:id="@+id/buttonAttach"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Attach Files" />
+
 
             <!-- Submit Button -->
             <Button
