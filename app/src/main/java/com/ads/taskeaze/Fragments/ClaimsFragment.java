@@ -64,6 +64,8 @@ public class ClaimsFragment extends Fragment {
                 submitClaim();
             }
         });
+
+        // Commit
         buttonReimburse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
