@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -85,6 +86,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.nav_my_profile) {
+            Log.d("Profile","Started myprofile click");
+            startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     private void findviewbyid() {
         viewPager = (NoSwipePager) findViewById(R.id.content_base_viewpager_id);
