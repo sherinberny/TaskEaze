@@ -56,7 +56,7 @@ public class ClaimsFragment extends Fragment {
         buttonReimburse = rootView.findViewById(R.id.buttonReimburse);
 
 
-        // Set OnClickListener for submit button
+        // Set OnClickListener for submit buttons
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
