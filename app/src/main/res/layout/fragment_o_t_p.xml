@@ -106,11 +106,13 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/fragment_verify_otp_submit_button_id"
-            android:background="@drawable/rounded_button"
+            android:background="@drawable/button_rounded_blue"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_margin="22dp"
             android:textSize="15sp"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:textAllCaps="false"
             android:clickable="true"
             android:focusable="true"

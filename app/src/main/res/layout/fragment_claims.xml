@@ -70,6 +70,7 @@
                 android:id="@+id/buttonSubmit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/button_rounded_blue"
                 android:text="Submit Claim" />
 
             <Button

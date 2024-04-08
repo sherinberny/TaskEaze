@@ -337,36 +337,38 @@
             </LinearLayout>
 
             <!-- Attachment -->
-           <!-- <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/attachment"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/new_meeting_followup_time_edittext_id"
-                android:layout_marginTop="16dp"/>
+             <TextView
+                 android:id="@+id/attachment_txv"
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:text="@string/attachment"
+                 android:textColor="@color/black"
+                 android:textSize="16sp"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintStart_toStartOf="parent"
+                 app:layout_constraintTop_toBottomOf="@id/followup_layout"
+                 android:layout_marginTop="16dp"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/fragment_direct_add_image_recycleview"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/new_meeting_notes_edittext_id"/>-->
+             <androidx.recyclerview.widget.RecyclerView
+                 android:id="@+id/new_meeting_add_image_recycleview"
+                 android:layout_width="0dp"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="8dp"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintStart_toStartOf="parent"
+                 app:layout_constraintTop_toBottomOf="@id/attachment_txv"/>
 
             <!-- Submit Button -->
             <Button
                 android:id="@+id/new_meeting_button_id"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/submit_txt"
+                android:background="@drawable/button_rounded_blue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/followup_layout"/>
+                app:layout_constraintTop_toBottomOf="@id/new_meeting_add_image_recycleview"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

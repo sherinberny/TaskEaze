@@ -1,28 +1,45 @@
 package com.ads.taskeaze;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
+import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -30,17 +47,28 @@ import android.widget.Toast;
 import com.ads.taskeaze.locationClasses.LocationUpdateListener;
 import com.ads.taskeaze.locationClasses.MyLocationManager;
 import com.ads.taskeaze.model.LastSubmitedModel;
+import com.ads.taskeaze.model.TravelImageModel;
 import com.ads.taskeaze.utils.CommonFunc;
+import com.ads.taskeaze.utils.ImageUtility;
 import com.ads.taskeaze.utils.NetworkUtils;
+import com.ads.taskeaze.utils.PermissionUtils;
 import com.ads.taskeaze.utils.PreferenceUtils;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.FileDescriptor;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.Timer;
+import java.util.concurrent.TimeUnit;
+
 
 public class NewMeetingsActivity extends SupportActivity implements LocationUpdateListener {
 
@@ -61,6 +89,17 @@ public class NewMeetingsActivity extends SupportActivity implements LocationUpda
     String DistToLastLocation = "";
 
     private long intimemillis;
+    private Uri uriCachedBuffer = null;
+
+    private LinkedList<TravelImageModel> meetingImageModels = new LinkedList<>();
+    private NewMeetingImageAdapter travelImageAdapter = null;
+
+    private final int SELECT_FILE = 20;
+    private final int SELECT_MOBILE_CONTACT = 22;
+    public static final int IMAGE_CAPTURE_CODE = 654;
+    Uri image_uri;
+
+    String mot = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +180,45 @@ public class NewMeetingsActivity extends SupportActivity implements LocationUpda
                 selectDate(v.getId());
             }
         });
+
+        setTheInitialPlaceholderImage();
+
+        findViewById(R.id.new_meeting_button_id).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ResetAllViews();
+            }
+        });
+
+        ((Spinner)findViewById(R.id.new_meeting_travel_by_spinner_id)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mot = ((Spinner)findViewById(R.id.new_meeting_travel_by_spinner_id)).getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         
+    }
+
+    private void ResetAllViews() {
+        ((EditText)findViewById(R.id.new_meeting_customer_name_edittext_id)).setText("");
+        ((EditText)findViewById(R.id.new_meeting_mobile_no_edittext_id)).setText("");
+        ((EditText)findViewById(R.id.fragment_add_in_time_id)).setText("");
+        ((EditText)findViewById(R.id.fragment_add_out_time_id)).setText("");
+        ((EditText)findViewById(R.id.new_meeting_notes_edittext_id)).setText("");
+        ((EditText)findViewById(R.id.new_meeting_followup_time_edittext_id)).setText("");
+        ((EditText)findViewById(R.id.new_meeting_followup_date_edittext_id)).setText("");
+        ((EditText)findViewById(R.id.new_meeting_distance_travelled_id)).setText("0.0 Km");
+        ((CheckBox)findViewById(R.id.fragment_direct_followup_checkbox)).setChecked(false);
+        ((Spinner)findViewById(R.id.new_meeting_travel_by_spinner_id)).setSelection(0);
+        ((Spinner)findViewById(R.id.fragment_directvisit_meeting_purpose_id)).setSelection(0);
+        findViewById(R.id.followup_layout).setVisibility(View.GONE);
+        setTheInitialPlaceholderImage();
     }
 
 
@@ -422,4 +499,190 @@ public class NewMeetingsActivity extends SupportActivity implements LocationUpda
         datePickerDialog.show();
         datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
     }
+
+    private void onSelectFromGalleryResult(Intent data) {
+        loadImageFromUri(data.getData());
+    }
+
+    private void onCaptureImageResult(Intent data) {
+        loadImageFromUri(uriCachedBuffer);
+    }
+
+    private void loadImageFromUri(Uri uri) {
+
+        Glide.with(NewMeetingsActivity.this).asBitmap().load(uri)
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        if (resource != null) {
+                            Bitmap bitmap = ImageUtility.getResizedBitmap(resource, 400);
+                            addattachmentImageToLinkedList(bitmap);
+                        }
+                    }
+                });
+    }
+
+    ///////////////////////////////////////// image adapter
+    private class NewMeetingImageAdapter extends RecyclerView.Adapter<NewMeetingImageAdapter.TravelImageHolder> {
+        @Override
+        public NewMeetingImageAdapter.TravelImageHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(NewMeetingsActivity.this).inflate(R.layout.fragment_travel_image_row, parent, false);
+            return new NewMeetingImageAdapter.TravelImageHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(final NewMeetingImageAdapter.TravelImageHolder holder, int position) {
+            if (meetingImageModels.get(holder.getAdapterPosition()).isAddImageButton()) {
+                holder.imageViewDelete.setVisibility(View.GONE);
+                holder.imageViewTravelImageView.setImageDrawable(ContextCompat.getDrawable(NewMeetingsActivity.this, R.drawable.ic_add_image));
+            } else {
+                holder.imageViewDelete.setVisibility(View.VISIBLE);
+                holder.imageViewTravelImageView.setImageBitmap(meetingImageModels.get(holder.getAdapterPosition()).getBitmap());
+
+
+            }
+            holder.imageViewTravelImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (meetingImageModels.get(holder.getAdapterPosition()).isAddImageButton()) {
+                        if (meetingImageModels.size() < 4)
+                            selectUploadImage();
+                        else
+                            Toast.makeText(NewMeetingsActivity.this, "Maximum image upload limit is 3.", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
+            holder.imageViewDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    meetingImageModels.remove(holder.getAdapterPosition());
+                    notifyItemRemoved(holder.getAdapterPosition());
+                }
+            });
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return meetingImageModels.size();
+        }
+
+        class TravelImageHolder extends RecyclerView.ViewHolder {
+            AppCompatImageView imageViewTravelImageView = null, imageViewDelete = null;
+            AppCompatTextView textViewImageCaption = null;
+            AppCompatTextView textViewAmount = null;
+
+            TravelImageHolder(View itemView) {
+                super(itemView);
+                this.imageViewTravelImageView = itemView.findViewById(R.id.fragment_travel_image_row_imageview_id);
+                this.imageViewDelete = itemView.findViewById(R.id.fragment_travel_image_row_delete_imageview);
+
+            }
+        }
+    }
+
+    /////// image uplode stuff
+    private void setTheInitialPlaceholderImage() {
+        meetingImageModels.clear();
+        meetingImageModels.add(new TravelImageModel(null, null, true));
+        travelImageAdapter = new NewMeetingImageAdapter();
+        ((RecyclerView) findViewById(R.id.new_meeting_add_image_recycleview)).setLayoutManager(new
+                LinearLayoutManager(NewMeetingsActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        ((RecyclerView) findViewById(R.id.new_meeting_add_image_recycleview)).setAdapter(travelImageAdapter);
+    }
+
+    private void addattachmentImageToLinkedList(Bitmap bitmap) {
+
+        String b64 = ImageUtility.convertImageToBase64(bitmap, NewMeetingsActivity.this);
+        meetingImageModels.addFirst(new TravelImageModel(b64, bitmap, false));
+        travelImageAdapter.notifyDataSetChanged();
+        dismissProgressDialog();
+    }
+    private void selectUploadImage() {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(new ContextThemeWrapper(NewMeetingsActivity.this,android.R.style.Theme_Dialog));
+        builder.setTitle("Upload Pictures Option");
+        builder.setMessage("How do you want to set your picture?");
+        builder.setPositiveButton("Gallery", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                        if (PermissionUtils.checkStoragePermission(NewMeetingsActivity.this)) {
+                            openGalary();
+                        } else {
+                            PermissionUtils.openPermissionDialog(NewMeetingsActivity.this, "Please grant Storage Permission");
+                        }
+                    }
+                }
+        );
+        builder.setNegativeButton("Camera", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                        if (PermissionUtils.checkCameraPermissionAndStoragePermission(NewMeetingsActivity.this)) {
+                            opencamera();
+                        } else {
+                            PermissionUtils.openPermissionDialog(NewMeetingsActivity.this, "Please grant Camera and Storage Permission");
+                        }
+                    }
+                }
+        );
+        android.app.AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void opencamera() {
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "New Picture");
+        values.put(MediaStore.Images.Media.DESCRIPTION, TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()));
+        image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
+        startActivityForResult(cameraIntent, IMAGE_CAPTURE_CODE);
+    }
+
+    private void openContacts(int select) {
+        Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+        intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
+        startActivityForResult(intent, select);
+    }
+
+    private void openGalary() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);//
+        startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == SELECT_FILE) {
+            if (resultCode == RESULT_OK) {
+                showProgressDialog();
+                onSelectFromGalleryResult(data);
+            }
+        }  else if (requestCode == IMAGE_CAPTURE_CODE && resultCode == RESULT_OK) {
+            //imageView.setImageURI(image_uri);
+            Bitmap bitmap = uriToBitmap(image_uri);
+            bitmap = ImageUtility.getResizedBitmap(bitmap, 400);
+            addattachmentImageToLinkedList(bitmap);
+            //  imageView.setImageBitmap(bitmap);
+        }
+    }
+    private Bitmap uriToBitmap(Uri selectedFileUri) {
+        try {
+            ParcelFileDescriptor parcelFileDescriptor =
+                    getContentResolver().openFileDescriptor(selectedFileUri, "r");
+            FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+            Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+
+            parcelFileDescriptor.close();
+            return image;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

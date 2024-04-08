@@ -1,17 +1,31 @@
 package com.ads.taskeaze.Fragments;
 
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.ads.taskeaze.NewMeetingsActivity;
 import com.ads.taskeaze.R;
+import com.ads.taskeaze.utils.CommonFunc;
+import com.ads.taskeaze.utils.PreferenceUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -71,13 +85,74 @@ public class MeetingsFragment extends Fragment {
         ((FloatingActionButton)viewFragment.findViewById(R.id.fragment_meeting_add_meeting)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), NewMeetingsActivity.class);
-                intent.setAction("New meeting");
-                startActivity(intent);
+                if(PreferenceUtils.isCheckedIn(getActivity()) && PreferenceUtils.isCheckedinToday(getActivity())) {
+                    Intent intent = new Intent(getActivity(), NewMeetingsActivity.class);
+                    intent.setAction("New meeting");
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getActivity(), "Please checkin to add a meeting", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        ((EditText) viewFragment.findViewById(R.id.fragment_meeting_date_id)).setText(CommonFunc.getTodayDate());
+
+
+        viewFragment.findViewById(R.id.fragment_meeting_date_id).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                opendatePickerToGetTheMeetingDate();
             }
         });
 
-
         return viewFragment;
     }
+
+    private void opendatePickerToGetTheMeetingDate() {
+
+        SimpleDateFormat mDF = new SimpleDateFormat("yyyy-mm-dd");
+        Date today = new Date();
+        mDF.format(today);
+        final Calendar c = Calendar.getInstance();
+        c.setTime(today);
+        int mYear = c.get(Calendar.YEAR);
+        int mMonth = c.get(Calendar.MONTH);
+        int mDay = c.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), R.style.MyTimePickerTheme,
+                new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year,
+                                          int monthOfYear, int dayOfMonth) {
+                        String formattedDay = (String.valueOf(dayOfMonth));
+                        int m = monthOfYear + 1;
+
+
+                        String formattedMonth = (String.valueOf(m));
+
+                        if (dayOfMonth < 10) {
+                            formattedDay = "0" + dayOfMonth;
+                        }
+
+                        if (m < 10) {
+                            formattedMonth = "0" + m;
+                            Log.e("month ", " " + m);
+                        }
+
+                        ((EditText) viewFragment.findViewById(R.id.fragment_meeting_date_id)).setText(formattedDay + "/" + (formattedMonth) + "/" + year);
+
+
+                    }
+                }, mYear, mMonth, mDay);
+        datePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+
+
+            }
+        });
+        datePickerDialog.show();
+//        datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
+    }
+
 }
