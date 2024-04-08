@@ -32,6 +32,4 @@ public abstract class SupportActivity extends AppCompatActivity {
 
     }
 
-    // Implement LocationUpdateListener interface method
-    public abstract void onLocationUpdate(Location location);
 }

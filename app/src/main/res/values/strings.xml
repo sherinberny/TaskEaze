@@ -77,6 +77,10 @@
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyDi-AwW65oOxzAzbDbBqrQ-sg2xzJOibRU
     </string>
+    <string name="yes_txt">Yes</string>
+    <string name="no_txt">No</string>
+    <string name="alert_txt">Alert</string>
+    <string name="app_close_txt">"Do you want to close "</string>
 
     <string-array name="mot">
         <item>--Select--</item>

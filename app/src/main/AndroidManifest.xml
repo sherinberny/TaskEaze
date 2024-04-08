@@ -12,7 +12,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission
@@ -30,13 +31,22 @@
         android:theme="@style/Theme.TaskEaze"
         tools:targetApi="31">
         <activity
+            android:name=".AttendanceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PaySlipsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LeavesActivity"
+            android:exported="false" />
+        <activity
             android:name=".SupportActivity"
             android:exported="false" />
         <activity
             android:name=".NewMeetingsActivity"
             android:exported="false" />
         <activity
-            android:name=".ProfileActiivty"
+            android:name=".ProfileActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"

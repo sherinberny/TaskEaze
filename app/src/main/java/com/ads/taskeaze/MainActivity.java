@@ -2,10 +2,12 @@ package com.ads.taskeaze;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 
@@ -95,6 +98,87 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            if (navigation.getSelectedItemId() == R.id.navigation_home) {
+                new AlertDialog.Builder(this)
+                        .setTitle(getResources().getString(R.string.alert_txt))
+                        .setMessage(getResources().getString(R.string.app_close_txt) + " " + getString(R.string.app_name) + " ?")
+                        .setCancelable(true)
+                        .setPositiveButton(getResources().getString(R.string.yes_txt), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                try {
+                                    finish();
+                                } catch (Exception e) {
+                                    finish();
+                                    e.printStackTrace();
+                                }
+
+                            }
+
+                        }).setNegativeButton(getResources().getString(R.string.no_txt), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .create().show();
+            } else {
+                navigation.setSelectedItemId(R.id.navigation_home);
+            }
+        }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.drawer_menu, menu);
+        //
+        MenuItem menuItemProfile = menu.findItem(R.id.nav_my_profile);
+        menuItemProfile.setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_profile_icon));
+
+        MenuItem menuItemLeaves = menu.findItem(R.id.nav_leaves);
+        menuItemLeaves.setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_nav_leave));
+
+        MenuItem menuItemPayslips = menu.findItem(R.id.nav_payslips);
+        menuItemPayslips.setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_payslip));
+
+        MenuItem menuItemAttendance = menu.findItem(R.id.nav_attendance);
+        menuItemAttendance.setIcon(ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_attendance));
+        //
+        return true;
+    }
+    
+
+
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if(id == R.id.nav_my_profile){
+            startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+        }
+        else if(id == R.id.nav_leaves){
+            startActivity(new Intent(MainActivity.this, LeavesActivity.class));
+        }
+        else if(id == R.id.nav_payslips){
+            startActivity(new Intent(MainActivity.this, PaySlipsActivity.class));
+        }
+        else if(id == R.id.nav_attendance){
+            startActivity(new Intent(MainActivity.this, AttendanceActivity.class));
+        }
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+
     private void findviewbyid() {
         viewPager = (NoSwipePager) findViewById(R.id.content_base_viewpager_id);
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -137,10 +221,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
-    }
 
     BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {

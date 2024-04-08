@@ -32,6 +32,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -54,7 +55,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class ProfileActivity  extends AppCompatActivity {
+public class ProfileActivity  extends SupportActivity {
 
 
     private TextView emname, empdep, email, phone, empadd, empUserName;
@@ -74,7 +75,16 @@ public class ProfileActivity  extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_actiivty);
+        RelativeLayout relativeLayout = findViewById(R.id.content_support);
+        getLayoutInflater().inflate(R.layout.activity_profile_actiivty, relativeLayout);
+        getSupportActionBar().setTitle(getResources().getString(R.string.myprofile_txt));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
 
         emname = findViewById(R.id.profileName);
@@ -96,12 +106,12 @@ public class ProfileActivity  extends AppCompatActivity {
         profileCancelBtn = findViewById(R.id.profileCancel_btn);
         profileUpdateBtn = findViewById(R.id.profileUpdate_btn);
 
-        ivimage.setOnClickListener(new View.OnClickListener(){
+        /*ivimage.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 selectUploadImage();
             }
-        });
+        });*/
 
         editBtn.setOnClickListener((View.OnClickListener) this);
         profileCancelBtn.setOnClickListener((View.OnClickListener) this);
