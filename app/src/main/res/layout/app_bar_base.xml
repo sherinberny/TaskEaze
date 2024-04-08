@@ -31,6 +31,7 @@
                     android:id="@+id/profile_image_toolbar"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    android:visibility="gone"
                     app:srcCompat="@drawable/ic_tag_loc"/>
             </androidx.cardview.widget.CardView>
 

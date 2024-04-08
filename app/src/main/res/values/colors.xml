@@ -9,4 +9,11 @@
     <color name="colorPrimary">#024265</color>
     <color name="colorAccent">#0274B2</color>
     <color name="red">#8B0000</color>
+    <color name="bgColor">#30CCF6</color>
+    <color name="gray">#a6a6a6</color>
+    <color name="light_blue">#e8f9ff</color>
+    <color name="rasp_pink">#e25098</color>
+    <color name="light_pink">#fc89ac</color>
+
+
 </resources>

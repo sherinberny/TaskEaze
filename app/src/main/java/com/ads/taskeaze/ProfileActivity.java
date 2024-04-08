@@ -90,7 +90,7 @@ public class ProfileActivity  extends AppCompatActivity {
         edt_address = findViewById(R.id.edit_Address);
         edt_userName = findViewById(R.id.edit_UserName);
 
-        ivimage = findViewById(R.id.profile_image);
+//        ivimage = findViewById(R.id.profile_image);
 
         editBtn = findViewById(R.id.edit_btn);
         profileCancelBtn = findViewById(R.id.profileCancel_btn);

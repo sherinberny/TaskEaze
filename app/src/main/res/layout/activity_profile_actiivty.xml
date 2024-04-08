@@ -15,7 +15,6 @@
         android:layout_margin="10dp"
         android:layout_gravity="end"
         android:background="@android:color/transparent"
-        android:src="@drawable/ic_edit"
         android:contentDescription="Edit button"
         android:minWidth="48dp"
         android:minHeight="48dp"
@@ -28,8 +27,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="150dp"
-            android:background="@drawable/base_container_style">
+            android:layout_marginTop="150dp">
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -53,8 +51,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="20dp"
-                        android:textStyle="italic"
-                        android:text="@string/Nametxt" />
+                        android:textStyle="italic"/>
 
                     <TextView
                         android:id="@+id/profileName"
@@ -75,14 +72,12 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="20dp"
-                        android:background="@drawable/setting_pg_edittext_design"
 
                         android:cursorVisible="false"
                         android:ems="10"
                         android:visibility="gone"
 
                         android:gravity="center_vertical"
-                        android:hint="@string/Namehint"
                         android:inputType="textPersonName"
                         android:padding="10dp"
                         android:textColor="@color/black"
@@ -94,7 +89,6 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="20dp"
-                        android:text="@string/txtUserName"
                         android:textStyle="italic" />
 
                     <TextView
@@ -116,13 +110,11 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="20dp"
-                        android:background="@drawable/setting_pg_edittext_design"
 
                         android:cursorVisible="false"
                         android:ems="10"
                         android:gravity="center_vertical"
 
-                        android:hint="@string/hintUserName"
                         android:inputType="textPersonName"
                         android:padding="10dp"
                         android:textColor="@color/black"
@@ -176,8 +168,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="20dp"
-                        android:textStyle="italic"
-                        android:text="@string/DeptTxt" />
+                        android:textStyle="italic" />
 
 
                     <TextView
@@ -200,14 +191,12 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="20dp"
-                        android:background="@drawable/setting_pg_edittext_design"
 
                         android:visibility="gone"
                         android:cursorVisible="false"
                         android:ems="10"
 
                         android:gravity="center_vertical"
-                        android:hint="@string/DeptHint"
                         android:inputType="textPersonName"
                         android:padding="10dp"
                         android:textColor="@color/black"
@@ -220,8 +209,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="10dp"
                         android:textStyle="italic"
-                        android:layout_marginEnd="20dp"
-                        android:text="@string/Phonetxt" />
+                        android:layout_marginEnd="20dp"/>
 
                     <TextView
                         android:id="@+id/profilePhoneNumber"
@@ -261,8 +249,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="20dp"
-                        android:textStyle="italic"
-                        android:text="@string/EmaiTxt" />
+                        android:textStyle="italic" />
 
                     <TextView
                         android:id="@+id/profileEmail"
@@ -283,14 +270,12 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="20dp"
-                        android:background="@drawable/setting_pg_edittext_design"
 
                         android:cursorVisible="false"
                         android:ems="10"
                         android:visibility="gone"
 
                         android:gravity="center_vertical"
-                        android:hint="@string/EmailHint"
                         android:inputType="textPersonName"
                         android:padding="10dp"
                         android:textColor="@color/black"
@@ -302,8 +287,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="20dp"
-                        android:textStyle="italic"
-                        android:text="@string/AddressTxt" />
+                        android:textStyle="italic" />
 
                     <TextView
                         android:id="@+id/profileAddress"
@@ -325,13 +309,11 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="20dp"
                         android:visibility="gone"
-                        android:background="@drawable/setting_pg_edittext_design"
 
                         android:cursorVisible="false"
                         android:ems="10"
 
                         android:gravity="center_vertical"
-                        android:hint="@string/AddressHint"
                         android:padding="10dp"
                         android:textColor="@color/black"
                         android:textStyle="bold" />
@@ -350,7 +332,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="22dp"
-                            android:background="@drawable/button_rounded_blue"
                             android:clickable="true"
                             android:focusable="true"
                             android:text="@string/cancel_txt"
@@ -363,7 +344,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="22dp"
-                            android:background="@drawable/button_rounded_blue"
                             android:clickable="true"
                             android:focusable="true"
                             android:text="@string/submit_txt"
@@ -386,12 +366,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_image"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:src="@drawable/profile_a"
-            tools:ignore="MissingClass" />
+
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 

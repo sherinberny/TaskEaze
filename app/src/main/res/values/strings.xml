@@ -34,6 +34,15 @@
     <string name="otp_sent_txt">"Enter 6 digit OTP send to - "</string>
     <string name="OtpVerification">OTP Verification</string>
     <string name="attendance_txt">Attendance</string>
+    <string name="WelcomeTo">Welcome To</string>
+    <string name="check_in">Check In</string>
+    <string name="location_txt">Location: </string>
+    <string name="time_test">10:00 AM</string>
+    <string name="clock_in">Clock In</string>
+    <string name="clock_out">Clock Out</string>
+    <string name="work_hrs">Working Hrs</string>
+    <string name="date_test">Friday,April 5</string>
+    <string name="check_out">Check Out</string>
     <string name="Nametxt">Name</string>
     <string name="Namehint">Name</string>
     <string name="txtUserName">User Name</string>

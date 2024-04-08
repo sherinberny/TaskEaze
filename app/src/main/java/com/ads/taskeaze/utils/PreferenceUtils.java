@@ -82,6 +82,7 @@ public class PreferenceUtils {
 
     public static final String CHECK_IN_OUT_PREFERENCE_NAME = "CHECK_IN_OUT_PREFERENCE_NAME";
     public static final String CHECK_IN_OUT_PREFERENCE_ATTENCE_ID_KEY = "CHECK_IN_OUT_PREFERENCE_ATTENCE_ID_KEY";
+    public static final String CHECK_IN_DONE = "CHECK_IN_DONE";
     public static final String CHECK_IN_OUT_PREFERENCE_CHECK_IN_DATE_ID_KEY = "CHECK_IN_OUT_PREFERENCE_CHECK_IN_DATE_ID_KEY";
 
 
@@ -90,6 +91,7 @@ public class PreferenceUtils {
         SharedPreferences sharedPreferences = context.getSharedPreferences(CHECK_IN_OUT_PREFERENCE_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(CHECK_IN_OUT_PREFERENCE_ATTENCE_ID_KEY, attenceKey);
+        editor.putBoolean(CHECK_IN_DONE, true);
         editor.putString(CHECK_IN_OUT_PREFERENCE_CHECK_IN_DATE_ID_KEY, CommonFunc.getTodayDate());
         return editor.commit();
     }
@@ -103,7 +105,7 @@ public class PreferenceUtils {
             return true;
         } else {
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.clear();
+            editor.putBoolean(CHECK_IN_DONE, false);
             return editor.commit();
         }
     }
@@ -134,6 +136,8 @@ public class PreferenceUtils {
     }
 
 
+
+
     ///// get attence id
 
     public static String getCheckedInUserAttenceId(Context context) {
@@ -144,6 +148,7 @@ public class PreferenceUtils {
     ///////////////////////////////////////////////////////// today check in time perference. . .
     public static final String TODAY_CHECK_IN_TIME_STAMP_PREFERENCE_NAME = "TODAY_TIME_STAMP_PREFERENCE_NAME";
     public static final String TODAY_TODAY_CHECK_IN_TIME_STAMP_LONG_VALUE_KEY = "TODAY_TODAY_CHECK_IN_TIME_STAMP_LONG_VALUE_KEY";
+    public static final String TODAY_TODAY_CHECK_OUT_TIME_STAMP_LONG_VALUE_KEY = "TODAY_TODAY_CHECK_OUT_TIME_STAMP_LONG_VALUE_KEY";
     public static final String TODAY_TODAY_CHECK_IN_LOCATION_VALUE_KEY = "TODAY_TODAY_CHECK_IN_LOCATION_VALUE_KEY";
 
     public static boolean clearToDayCheckInTimePreference(Context context) {
@@ -160,6 +165,30 @@ public class PreferenceUtils {
         editor.putLong(TODAY_TODAY_CHECK_IN_TIME_STAMP_LONG_VALUE_KEY, checkInTimeStamp);
         return editor.commit();
     }
+    public static boolean addCheckOutTimeToSharedPreference(Context context, long checkOutTimeStamp) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(TODAY_CHECK_IN_TIME_STAMP_PREFERENCE_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong(TODAY_TODAY_CHECK_OUT_TIME_STAMP_LONG_VALUE_KEY, checkOutTimeStamp);
+        return editor.commit();
+    }
+
+    public static boolean isCheckedIn(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(CHECK_IN_OUT_PREFERENCE_NAME, MODE_PRIVATE);
+        if (sharedPreferences == null) {
+            return false;
+        } else {
+            return sharedPreferences.getBoolean(CHECK_IN_DONE, false);
+        }
+    }
+
+    public static boolean isCheckedinToday(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(CHECK_IN_OUT_PREFERENCE_NAME, MODE_PRIVATE);
+        if (sharedPreferences == null) {
+            return false;
+        } else {
+            return sharedPreferences.getString(CHECK_IN_OUT_PREFERENCE_CHECK_IN_DATE_ID_KEY, "").equals(CommonFunc.getTodayDate());
+        }
+    }
 
     //
     public static long getTodayCheckInTimeStamp(Context context) {
@@ -168,6 +197,15 @@ public class PreferenceUtils {
             return 0;
         } else {
             return sharedPreferences.getLong(TODAY_TODAY_CHECK_IN_TIME_STAMP_LONG_VALUE_KEY, 0);
+        }
+    }
+
+    public static long getTodayCheckOutTimeStamp(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(TODAY_CHECK_IN_TIME_STAMP_PREFERENCE_NAME, MODE_PRIVATE);
+        if (sharedPreferences == null) {
+            return 0;
+        } else {
+            return sharedPreferences.getLong(TODAY_TODAY_CHECK_OUT_TIME_STAMP_LONG_VALUE_KEY, 0);
         }
     }
 

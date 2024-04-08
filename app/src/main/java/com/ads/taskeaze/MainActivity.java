@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -12,6 +13,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
@@ -28,6 +32,10 @@ import com.ads.taskeaze.adapters.ViewpagerAdapter;
 import com.ads.taskeaze.customwidget.NoSwipePager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.Objects;
+
+
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -86,16 +94,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.nav_my_profile) {
-            Log.d("Profile","Started myprofile click");
-            startActivity(new Intent(MainActivity.this, ProfileActivity.class));
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 
     private void findviewbyid() {
         viewPager = (NoSwipePager) findViewById(R.id.content_base_viewpager_id);

@@ -3,6 +3,8 @@ package com.ads.taskeaze.utils;
 import static androidx.core.app.NotificationCompat.PRIORITY_HIGH;
 
 import static com.ads.taskeaze.utils.ConstantUtils.FORMAT_CALENDAR_EVENT;
+import static com.ads.taskeaze.utils.ConstantUtils.FORMAT_CALENDAR_HOME;
+import static com.ads.taskeaze.utils.ConstantUtils.FORMAT_TIME_HOME;
 import static com.ads.taskeaze.utils.ConstantUtils.IMAGE_STORAGE_DIRECTORY_NAME;
 import static com.ads.taskeaze.utils.ConstantUtils.NOTIFICATION_CHANNEL_ID_OF_COMM_NOTIFICATION;
 import static com.ads.taskeaze.utils.ConstantUtils.NOTIFICATION_CHANNEL_NAME_OF_COMM_NOTIFICATION;
@@ -163,6 +165,20 @@ public class CommonFunc {
         String formattedDate = df.format(c.getTime());
         return formattedDate;
     }
+
+    public static String getTodayDateForHome() {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat(FORMAT_CALENDAR_HOME);
+        String formattedDate = df.format(c.getTime());
+        return formattedDate;
+    }
+    public static String getTodayTimeForHome() {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat(FORMAT_TIME_HOME);
+        String formattedTime = df.format(c.getTime());
+        return formattedTime;
+    }
+
 
     public static boolean isGooglePlayServicesAvailable(Activity activity) {
         GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
