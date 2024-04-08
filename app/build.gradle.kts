@@ -51,6 +51,7 @@ dependencies {
     implementation("com.google.firebase:firebase-core:21.1.1")
     implementation("com.google.firebase:firebase-core:21.1.1")
     implementation ("androidx.browser:browser:1.8.0")
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
 
    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.google.code.gson:gson:2.10")
@@ -58,5 +59,9 @@ dependencies {
     implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
     implementation ("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
+    implementation ("com.sun.mail:android-mail:1.6.4")
+    implementation ("com.sun.mail:android-activation:1.6.4")
+
+
 
 }

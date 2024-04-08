@@ -16,4 +16,10 @@
     <color name="light_pink">#fc89ac</color>
     <color name="widget_labelled_spinner_default">#6D6D6D</color>
     <color name="widget_labelled_spinner_error">#FFDD2C00</color>
+
+    <color name="chat_right">#03AC13</color>
+    <color name="chat_text">#000000</color>
+    <color name="chat_left">#FAF9F6</color>
+
+
 </resources>
