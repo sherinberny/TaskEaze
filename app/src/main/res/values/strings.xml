@@ -34,4 +34,21 @@
     <string name="otp_sent_txt">"Enter 6 digit OTP send to - "</string>
     <string name="OtpVerification">OTP Verification</string>
     <string name="attendance_txt">Attendance</string>
+    <string name="Nametxt">Name</string>
+    <string name="Namehint">Name</string>
+    <string name="txtUserName">User Name</string>
+
+    <string name="AddressTxt">Address</string>
+    <string name="AddressHint">Address</string>
+    <string name="hintUserName" />
+
+    <string name="EmailHint">Email</string>
+    <string name="DeptTxt">Department</string>
+    <string name="DeptHint">Department</string>
+    <string name="Phonetxt">Phone Number</string>
+    <string name="Phonehint">Phone Number</string>
+    <string name="EmaiTxt">Email</string>
+    <string name="edit_button_description">Edit profile</string>
+
+
 </resources>
