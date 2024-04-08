@@ -1,5 +1,6 @@
 package com.ads.taskeaze.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,7 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ads.taskeaze.NewMeetingsActivity;
 import com.ads.taskeaze.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +29,7 @@ public class MeetingsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    View viewFragment = null;
     public MeetingsFragment() {
         // Required empty public constructor
     }
@@ -61,6 +65,19 @@ public class MeetingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_meetings, container, false);
+        viewFragment =  inflater.inflate(R.layout.fragment_meetings, container, false);
+
+
+        ((FloatingActionButton)viewFragment.findViewById(R.id.fragment_meeting_add_meeting)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), NewMeetingsActivity.class);
+                intent.setAction("New meeting");
+                startActivity(intent);
+            }
+        });
+
+
+        return viewFragment;
     }
 }

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">TaskEaze</string>
     <string name="logo_image_desc">Logo Image</string>
+    <string name="comm_image_desc">An icon</string>
     <string name="enter_your_mobile">Enter Your Mobile Number</string>
     <string name="mobile_otp_txt">We shall send you a 4 digit One Time Password</string>
     <string name="mobile_hint">Mobile Number</string>
@@ -46,6 +47,7 @@
     <string name="Nametxt">Name</string>
     <string name="Namehint">Name</string>
     <string name="txtUserName">User Name</string>
+    <string name="widget_labelled_spinner_errorText">You must choose an item.</string>
 
     <string name="AddressTxt">Address</string>
     <string name="AddressHint">Address</string>
@@ -58,6 +60,43 @@
     <string name="Phonehint">Phone Number</string>
     <string name="EmaiTxt">Email</string>
     <string name="edit_button_description">Edit profile</string>
+    <string name="client_name">Client Name</string>
+    <string name="mobile_no">Mobile No</string>
+    <string name="location">Location</string>
+    <string name="distance_travelled">Distance Travelled</string>
+    <string name="purpose">Visit Purpose</string>
+    <string name="mot">Travel By</string>
+    <string name="intime">In Time</string>
+    <string name="outtime">Out Time</string>
+    <string name="notes">Notes</string>
+    <string name="followup">Follow up</string>
+    <string name="followupdate">Follow Up Date</string>
+    <string name="followuptime">Follow Up Time</string>
+    <string name="attachment">Attachment</string>
+    <string name="date">Date</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
+        AIzaSyDi-AwW65oOxzAzbDbBqrQ-sg2xzJOibRU
+    </string>
 
+    <string-array name="mot">
+        <item>--Select--</item>
+        <item>Car</item>
+        <item>Motorcycle</item>
+        <item>Truck</item>
+        <item>Semi-Truck</item>
+        <item>Trike</item>
+        <item>Train</item>
+        <item>Flight</item>
+    </string-array>
+
+    <string-array name="purpose">
+        <item>--Select--</item>
+        <item>Lead Meeting</item>
+        <item>Sales Meeting</item>
+        <item>Report Meeting</item>
+        <item>Followup Meeting</item>
+        <item>Support Meeting</item>
+        <item>Flight</item>
+    </string-array>
 
 </resources>

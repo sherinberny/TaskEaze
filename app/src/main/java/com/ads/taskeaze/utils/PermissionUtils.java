@@ -58,6 +58,13 @@ public class PermissionUtils {
 
     }
 
+    public static boolean checkLocationPermission(Context context)
+    {
+        return ContextCompat.checkSelfPermission(context,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED;
+    }
+
 
 
     public static void openPermissionDialog(final Context context, String subjuct) {

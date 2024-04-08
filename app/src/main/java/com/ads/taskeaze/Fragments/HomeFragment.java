@@ -265,7 +265,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Loca
     }
 
     void runContiniouslyWorkTime() {
-        long millis = CommonFunc.getCurrentSystemTimeStamp() - PreferenceUtils.getTodayCheckInTimeStamp(getActivity());
+        long millis = CommonFunc.getCurrentSystemTimeStamp() - Long.parseLong(PreferenceUtils.getCheckedInUserAttenceId(getActivity()));
         CommonFunc.getDurationString(millis);
         if (isAdded()) {
             if (PreferenceUtils.isCheckedinToday(getActivity()) && PreferenceUtils.isCheckedIn(getActivity())) {
@@ -295,24 +295,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Loca
 
 
     private void checkIsCheckingInRunning() {
-        /*if (((LinearLayout) viewFragment.findViewById(R.id.checkinLayout))
-                .getVisibility() == View.VISIBLE) {
-            CommonFunc.commonDialog(getActivity(),
-                    getString(R.string.alert),
-                    "Checking-in in process... please wait..", false,
-                    (AppCompatActivity) getActivity(),
-                    viewFragment.findViewById(R.id.fragment_home_scroolview));
-        }else{
-                    CommonFunc.commonDialog(getActivity(),
-                            getString(R.string.alert),
-                            "Checking-out in process... please wait..", false,
-                            (AppCompatActivity) getActivity(),
-                            viewFragment.findViewById(R.id.fragment_home_scroolview));
 
-            }
-        } else {*/
             alertCheckInOuTDialog();
-      //  }
+
     }
 
     private void alertCheckInOuTDialog() {
@@ -407,7 +392,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Loca
             // Permission granted, start receiving location updates
             startLocationUpdates();
         } else {
-            // Permission denied, handle accordingly (e.g., show a message)
+            Toast.makeText(getActivity(), "Please give the permission to access location", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -434,11 +419,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Loca
                 if (PreferenceUtils.setUserHasCheckedIn(getActivity(), timeRef)) {
                     if (PreferenceUtils.addCheckInTimeToSharedPreference(getActivity(), Long.parseLong(timeRef))) {
                         PreferenceUtils.setCheckInLocationToSharedPreference(getActivity(), address);
+                        PreferenceUtils.addLastSubmitedAddress(String.valueOf(latitude), String.valueOf(longitude), address, getActivity());
                         setTimeAndLocation(address, CommonFunc.convertTimestampToTime(timeRef), "--");
                         runContiniouslyWorkTime();
                         ((LinearLayout) viewFragment.findViewById(R.id.checkinLayout)).setVisibility(View.GONE);
                         ((LinearLayout) viewFragment.findViewById(R.id.checkoutLayout)).setVisibility(View.VISIBLE);
-                       /* CommonFunc.showNotification("Check-in", "You have successfully checked-in", NOTIFICATION_TYPE_NOTHING,
+                        /*CommonFunc.showNotification("Check-in", "You have successfully checked-in", NOTIFICATION_TYPE_NOTHING,
                                 getActivity(), false, false);*/
                         dismissProgressDialog();
 
@@ -466,7 +452,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Loca
                     }
                 }
 
-                   /* CommonFunc.showNotification("Check-out", "You have successfully checked-out", NOTIFICATION_TYPE_NOTHING,
+                    /*CommonFunc.showNotification("Check-out", "You have successfully checked-out", NOTIFICATION_TYPE_NOTHING,
                             getActivity(), false, false);*/
 
                     dismissProgressDialog();

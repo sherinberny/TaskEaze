@@ -205,7 +205,7 @@
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_checkin" />
+                    android:src="@drawable/ic_checkout" />
 
                 <TextView
                     android:id="@+id/checkout_time"
@@ -236,7 +236,7 @@
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/ic_checkin" />
+                    android:src="@drawable/ic_hours" />
 
                 <TextView
                     android:id="@+id/work_time"

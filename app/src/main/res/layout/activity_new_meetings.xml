@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/new_meeting_constraintlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorTransparent"
+    android:clickable="true"
+    android:focusable="true"
+    tools:context=".NewMeetingsActivity">
+
+    <ScrollView
+        android:id="@+id/new_meeting_scrollview_id"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <!-- Customer Name -->
+            <TextView
+                android:id="@+id/customer_name_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/client_name"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <EditText
+                android:id="@+id/new_meeting_customer_name_edittext_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/client_name"
+                android:inputType="textVisiblePassword|textNoSuggestions"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customer_name_label"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <!-- Mobile Number -->
+            <TextView
+                android:id="@+id/mobile_number_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/mobile_no"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/new_meeting_customer_name_edittext_id"
+                android:layout_marginTop="16dp"/>
+
+            <EditText
+                android:id="@+id/new_meeting_mobile_no_edittext_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/mobile_no"
+                android:inputType="textVisiblePassword|textNoSuggestions|number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mobile_number_label"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <!-- Location -->
+            <TextView
+                android:id="@+id/location_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/location"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/new_meeting_mobile_no_edittext_id"
+                android:layout_marginTop="16dp"/>
+
+            <EditText
+                android:id="@+id/new_meeting_location_edittext_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/location"
+                android:inputType="textVisiblePassword|textNoSuggestions|textMultiLine"
+                android:lines="5"
+                android:focusable="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/location_label"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <!-- Distance Travelled -->
+            <TextView
+                android:id="@+id/distance_travelled_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/distance_travelled"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/new_meeting_location_edittext_id"
+                android:layout_marginTop="16dp"/>
+
+            <EditText
+                android:id="@+id/new_meeting_distance_travelled_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/distance_travelled"
+                android:focusable="false"
+                android:inputType="textVisiblePassword|textNoSuggestions|numberDecimal"
+                app:layout_constraintEnd_toStartOf="@+id/refresh_distance_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/distance_travelled_label"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+
+
+            <ImageButton
+                android:id="@+id/refresh_distance_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_refresh"
+                android:layout_margin="10dp"
+                android:background="@color/colorTransparent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:contentDescription="@string/comm_image_desc"
+                app:layout_constraintStart_toEndOf="@+id/new_meeting_distance_travelled_id"
+                app:layout_constraintTop_toTopOf="@id/new_meeting_distance_travelled_id"/>
+
+            <!-- Meeting Purpose -->
+            <TextView
+                android:id="@+id/meeting_purpose_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/purpose"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/refresh_distance_button"
+                android:layout_marginTop="16dp"/>
+
+
+            <Spinner
+                android:id="@+id/fragment_directvisit_meeting_purpose_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:entries="@array/purpose"
+                app:layout_constraintTop_toBottomOf="@+id/meeting_purpose_label"
+                tools:ignore="SpeakableTextPresentCheck"/>
+
+            <!-- Travel By -->
+            <TextView
+                android:id="@+id/travel_by_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/mot"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragment_directvisit_meeting_purpose_id"
+                android:layout_marginTop="16dp"/>
+
+            <Spinner
+                android:id="@+id/new_meeting_travel_by_spinner_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                android:entries="@array/mot"
+                app:layout_constraintTop_toBottomOf="@+id/travel_by_label"
+                tools:ignore="SpeakableTextPresentCheck"/>
+
+
+            <!-- In Time -->
+            <TextView
+                android:id="@+id/in_time_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/intime"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/new_meeting_travel_by_spinner_id"
+                android:layout_marginTop="16dp"/>
+
+            <!-- Out Time -->
+            <EditText
+                android:id="@+id/fragment_add_in_time_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:hint="@string/intime"
+                android:focusable="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                android:imeOptions="actionDone"
+                app:layout_constraintTop_toBottomOf="@+id/in_time_label"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/out_time_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/outtime"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragment_add_in_time_id"
+                android:layout_marginTop="16dp"/>
+
+            <EditText
+                android:id="@+id/fragment_add_out_time_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/outtime"
+                android:focusable="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:imeOptions="actionDone"
+                app:layout_constraintTop_toBottomOf="@+id/out_time_label"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <!-- Notes -->
+            <TextView
+                android:id="@+id/notes_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/notes"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragment_add_out_time_id"
+                android:layout_marginTop="16dp"/>
+
+            <EditText
+                android:id="@+id/new_meeting_notes_edittext_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/notes"
+                android:inputType="textCapSentences|textNoSuggestions|textMultiLine"
+                android:minLines="5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/notes_label"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <!-- Follow up Checkbox -->
+            <CheckBox
+                android:id="@+id/fragment_direct_followup_checkbox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/followup"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/new_meeting_notes_edittext_id"
+                android:layout_marginTop="16dp"/>
+
+            <!-- Follow up Date -->
+
+            <LinearLayout
+                android:id="@+id/followup_layout"
+                android:layout_width="0dp"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragment_direct_followup_checkbox"
+                android:orientation="vertical">
+            <TextView
+                android:id="@+id/followup_date_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/followupdate"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="16dp"/>
+
+            <EditText
+                android:id="@+id/new_meeting_followup_date_edittext_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/followupdate"
+                android:inputType="text"
+                android:focusable="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/followup_date_label"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <!-- Follow up Time -->
+            <TextView
+                android:id="@+id/followup_time_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/followuptime"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/new_meeting_followup_date_edittext_id"
+                android:layout_marginTop="16dp"/>
+
+            <EditText
+                android:id="@+id/new_meeting_followup_time_edittext_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/followuptime"
+                android:inputType="text"
+                android:focusable="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/followup_time_label"
+                tools:ignore="SpeakableTextPresentCheck" />
+            </LinearLayout>
+
+            <!-- Attachment -->
+           <!-- <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/attachment"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/new_meeting_followup_time_edittext_id"
+                android:layout_marginTop="16dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragment_direct_add_image_recycleview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/new_meeting_notes_edittext_id"/>-->
+
+            <!-- Submit Button -->
+            <Button
+                android:id="@+id/new_meeting_button_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/submit_txt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/followup_layout"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

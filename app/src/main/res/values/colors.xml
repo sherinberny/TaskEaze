@@ -14,6 +14,6 @@
     <color name="light_blue">#e8f9ff</color>
     <color name="rasp_pink">#e25098</color>
     <color name="light_pink">#fc89ac</color>
-
-
+    <color name="widget_labelled_spinner_default">#6D6D6D</color>
+    <color name="widget_labelled_spinner_error">#FFDD2C00</color>
 </resources>

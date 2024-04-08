@@ -9,6 +9,7 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ads.taskeaze.R;
+import com.ads.taskeaze.model.LastSubmitedModel;
 
 
 public class PreferenceUtils {
@@ -23,6 +24,8 @@ public class PreferenceUtils {
     public static final String SESSION_PREFERENCE_USERNAME = "SESSION_PREFERENCE_USERNAME";
     public static final String SESSION_PREFERENCE_USER_ID = "SESSION_PREFERENCE_USER_ID";
     public static final String SESSION_PREFERENCE_DEPARTMENT_NAME = "SESSION_PREFERENCE_DEPARTMENT_NAME";
+    public static final String SESSION_PREFERENCE_GOOGLE_API_KEY = "SESSION_PREFERENCE_GOOGLE_API_KEY";
+
 
     public static void addUserDetailsToPreferences(Context context,
                                                    String mobileNo, String email, String fullName,
@@ -278,6 +281,32 @@ public class PreferenceUtils {
             return sharedPreferences.getBoolean(CHECK_IN_OUT_SERVICE_RUNNING_PREFERENCE_IS_RUNNING_KEY, false);
         }
     }
+
+
+    //////////////////////////////////////////////////////  get latest submited location
+    public static LastSubmitedModel getThelastSubmitedAddress(Context context) {
+        SharedPreferences sharedPreferences = context.
+                getSharedPreferences(PREFERENCE_TO_STORE_LAST_SUBMITED_LOC_PREFERENCE_NAME, MODE_PRIVATE);
+        if (sharedPreferences == null) {
+            return null;
+        } else {
+            LastSubmitedModel lastSubmitedModel = new LastSubmitedModel();
+            if (sharedPreferences.getString(PREFERENCE_TO_STORE_LAST_SUBMITED_LOC_PREFERENCE_LOCATION_KEY, null) == null) {
+                return null;
+            } else {
+                lastSubmitedModel.
+                        setLastSubmitedAddress(sharedPreferences.getString(PREFERENCE_TO_STORE_LAST_SUBMITED_LOC_PREFERENCE_LOCATION_KEY, null));
+                lastSubmitedModel.
+                        setLastSubmitedAddressLat(sharedPreferences.getString(PREFERENCE_TO_STORE_LAST_SUBMITED_LOC_PREFERENCE_LAT_KEY, null));
+                lastSubmitedModel.
+                        setLastSubmitedAddressLng(sharedPreferences.getString(PREFERENCE_TO_STORE_LAST_SUBMITED_LOC_PREFERENCE_LNG_KEY, null));
+                return lastSubmitedModel;
+            }
+        }
+
+    }
+
+
 
 
 
