@@ -18,4 +18,7 @@ public interface OfflineMeetingsDAO {
     @Query("SELECT * FROM offline_meetings WHERE onDate=:onDate")
     List<OfflineMeetings> getAllMeetingsDate(String onDate);
 
+    @Query("SELECT * FROM offline_meetings")
+    List<OfflineMeetings> getAllMeetings();
+
 }

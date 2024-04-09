@@ -54,8 +54,11 @@ dependencies {
     implementation("com.google.firebase:firebase-core:21.1.1")
     implementation ("androidx.browser:browser:1.8.0")
     implementation ("de.hdodenhof:circleimageview:3.1.0")
+    implementation ("com.jjoe64:graphview:4.2.2")
 
-   implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
+
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.google.code.gson:gson:2.10")
     implementation ("io.github.chaosleung:pinview:1.4.4")
     implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
