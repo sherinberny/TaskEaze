@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/claimFragment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".Fragments.ClaimsFragment">
-
 
 
     <ScrollView
@@ -47,6 +47,20 @@
                 android:inputType="numberDecimal"
                 android:textSize="20sp" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Distance:"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/editTextDistance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Distance"
+                android:inputType="numberDecimal"
+                android:textSize="20sp" />
+
             <!-- Description -->
             <TextView
                 android:layout_width="wrap_content"
@@ -62,6 +76,7 @@
                 android:inputType="textMultiLine"
                 android:lines="3" />
 
+
             <!-- Attachments -->
 
 
@@ -71,13 +86,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_rounded_blue"
-                android:text="Submit Claim" />
+                android:text="Submit Claim"
+                android:textColor="@color/light_pink" />
 
             <Button
                 android:id="@+id/buttonReimburse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Reimburse Claim" />
+                android:text="Reimburse Claim"
+                android:textColor="@color/light_pink" />
         </LinearLayout>
     </ScrollView>
 

@@ -21,6 +21,7 @@ import com.ads.taskeaze.R;
 import com.ads.taskeaze.RegistrationActivity;
 import com.ads.taskeaze.ReimbursementDetailsActivity;
 import com.ads.taskeaze.model.ClaimDAO;
+import com.ads.taskeaze.model.entities.ClaimRepository;
 
 // Added code for claims
 public class ClaimsFragment extends Fragment {
@@ -32,6 +33,11 @@ public class ClaimsFragment extends Fragment {
 
     private Button buttonReimburse;
     private ClaimDAO claimDAO;
+    private String distanceValue;
+
+    private EditText editTextDistance;
+
+    private ClaimRepository claimRepository;
 
     public ClaimsFragment() {
         // Required empty public constructor
@@ -40,7 +46,12 @@ public class ClaimsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        claimDAO = new ClaimDAO(getActivity());
+        claimRepository = new ClaimRepository(getActivity());
+
+//        Bundle bundle = getArguments();
+//        if (bundle != null) {
+//            distanceValue = bundle.getString("distance");
+//        }
     }
 
     @Override
@@ -54,6 +65,13 @@ public class ClaimsFragment extends Fragment {
         editTextDescription = rootView.findViewById(R.id.editTextDescription);
         buttonSubmit = rootView.findViewById(R.id.buttonSubmit);
         buttonReimburse = rootView.findViewById(R.id.buttonReimburse);
+        editTextDistance = rootView.findViewById(R.id.editTextDistance);
+
+        if (distanceValue != null) {
+            editTextDistance.setText(distanceValue);
+        }
+
+
 
 
         // Set OnClickListener for submit buttons
@@ -67,14 +85,31 @@ public class ClaimsFragment extends Fragment {
 
         // Commit
         buttonReimburse.setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View v) {
                 String date = editTextDate.getText().toString();
-                double amount = Double.parseDouble(editTextAmount.getText().toString());
-                String description = editTextDescription.getText().toString();
+                double amount;
+                String description;
+
+                // Get amount and description
+                try {
+                    amount = Double.parseDouble(editTextAmount.getText().toString());
+                    description = editTextDescription.getText().toString();
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getActivity(), "Please enter a valid amount", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Get distance value
+                String distanceValue = editTextDistance.getText().toString();
+
+                if (TextUtils.isEmpty(distanceValue)) {
+                    // Handle null or empty distance value
+                    Toast.makeText(getActivity(), "Distance value is null or empty", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 // Calculate reimbursement amount (example logic)
-                double reimbursementAmount = calculateReimbursementAmount(amount, description);
+                double reimbursementAmount = calculateReimbursementAmount(amount, distanceValue, description);
 
                 // Start ReimbursementDetailsActivity and pass claim details and reimbursement amount
                 Intent intent = new Intent(getActivity(), ReimbursementDetailsActivity.class);
@@ -91,15 +126,38 @@ public class ClaimsFragment extends Fragment {
     }
 
     // Method to calculate reimbursement amount (example logic)
-    private double calculateReimbursementAmount(double amount, String description) {
-        // Your reimbursement logic here
-        // For demonstration, let's assume reimbursement amount is 75% if description contains specific keyword
-        if (description.toLowerCase().contains("personal")) {
-            return amount * 0.75; // 75% of claim amount
-        } else {
-            return 0; // No reimbursement
+    private double calculateReimbursementAmount(double amount, String distanceValue, String description) {
+        double distance = Double.parseDouble(distanceValue);
+        if (distance <= 0) {
+            throw new IllegalArgumentException("Distance must be positive");
         }
+
+        double baseReimbursementRate = 0.75; // Example: 75%
+        double distanceReimbursementRate = 0.0; // Initialize with 0%
+        if (distance > 50) { // Example threshold for longer distances
+            distanceReimbursementRate = 0.10; // Example: 10% additional reimbursement for distances greater than 50 units
+        }
+
+        double descriptionReimbursementRate = 0.0; // Initialize with 0%
+        if (description.toLowerCase().contains("business")) { // Example keyword in description
+            descriptionReimbursementRate = 0.20; // Example: 20% additional reimbursement for business-related claims
+        }
+
+        double reimbursementAmount = 0.0; // Initialize with 0
+        if (description.toLowerCase().contains("personal")) {
+            reimbursementAmount = amount * baseReimbursementRate; // 75% of claim amount
+        } else if (description.toLowerCase().contains("food")) {
+            reimbursementAmount = amount * 0.50; // Example: 50% of claim amount for food-related claims
+        }
+
+        // Calculate total reimbursement amount including distance and description rates
+        reimbursementAmount += amount * distanceReimbursementRate;
+        reimbursementAmount += amount * descriptionReimbursementRate;
+
+        return reimbursementAmount;
     }
+
+
 public void submitClaim(){
     // Get input values
     String date = editTextDate.getText().toString();
@@ -141,7 +199,7 @@ public void submitClaim(){
     }
 
     // Insert claim into database
-    long newRowId = claimDAO.insertClaim(date, amount, description);
+    long newRowId = claimRepository.insertClaim(date, amount, description);
 
 
     Log.d("DB Values","Values entered in DB"+date);
@@ -152,5 +210,7 @@ public void submitClaim(){
         // Failed to submit claim
         Toast.makeText(getActivity(), "Failed to submit claim", Toast.LENGTH_SHORT).show();
     }}
+
+
 
     }

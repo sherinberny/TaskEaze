@@ -1,6 +1,7 @@
 package com.ads.taskeaze;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,16 @@ public class ReimbursementDetailsActivity extends AppCompatActivity {
         textViewDescription.setText("Description: " + description);
         textViewReimbursementAmount.setText("Reimbursement Amount: " + reimbursementAmount);
     }
+    public void closeActivity(View view) {
+
+
+        finish(); // Close the activity and return to the previous one
+
+
+    }
+
+
+
 }
 
 
