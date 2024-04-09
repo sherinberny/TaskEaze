@@ -4,7 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 
 import com.ads.taskeaze.model.entities.Claim;
-
+// added claimDao
 @Dao
 public interface ClaimDao {
     @Insert

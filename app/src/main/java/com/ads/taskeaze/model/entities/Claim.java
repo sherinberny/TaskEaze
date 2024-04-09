@@ -2,7 +2,7 @@ package com.ads.taskeaze.model.entities;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
+// Added Claim entity
 @Entity(tableName = "claims")
 public class Claim {
     @PrimaryKey(autoGenerate = true)

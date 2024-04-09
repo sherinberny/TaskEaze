@@ -6,7 +6,7 @@ import androidx.room.Room;
 
 import com.ads.taskeaze.database.AppDatabase;
 import com.ads.taskeaze.model.dao.ClaimDao;
-
+// Added ClaimRepos
 public class ClaimRepository {
     private ClaimDao claimDao;
 

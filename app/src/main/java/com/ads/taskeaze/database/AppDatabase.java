@@ -25,7 +25,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract OfflineMeetingsDAO offlineMeetingsDAO();
 
 
-    // added ClaimsDAo
+    // added ClaimsDAo latest
 public abstract ClaimDao claimDao();
 
 }

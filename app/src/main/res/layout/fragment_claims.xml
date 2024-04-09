@@ -80,7 +80,7 @@
             <!-- Attachments -->
 
 
-            <!-- Submit Button -->
+            <!-- Submit Buttons -->
             <Button
                 android:id="@+id/buttonSubmit"
                 android:layout_width="match_parent"

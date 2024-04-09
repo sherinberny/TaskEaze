@@ -23,7 +23,7 @@ import com.ads.taskeaze.ReimbursementDetailsActivity;
 import com.ads.taskeaze.model.ClaimDAO;
 import com.ads.taskeaze.model.entities.ClaimRepository;
 
-// Added code for claims
+// Added code for claimss
 public class ClaimsFragment extends Fragment {
 
     private EditText editTextDate;

@@ -43,6 +43,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 
+import com.ads.taskeaze.Fragments.ClaimsFragment;
 import com.ads.taskeaze.database.AppDatabase;
 import com.ads.taskeaze.locationClasses.LocationUpdateListener;
 import com.ads.taskeaze.locationClasses.MyLocationManager;
@@ -428,6 +429,15 @@ public class NewMeetingsActivity extends SupportActivity implements LocationUpda
         ((EditText)findViewById(R.id.new_meeting_distance_travelled_id)).setText(DistToLastLocation);
 
 
+
+//        Bundle bundle = new Bundle();
+//        bundle.putString("distance", String.valueOf(DistToLastLocation));
+//        ClaimsFragment fragment = new ClaimsFragment();
+//        fragment.setArguments(bundle);
+//
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.claimFragment, fragment)
+//                .commit();
     }
 
     private void selectInTime(final int viewId) {
