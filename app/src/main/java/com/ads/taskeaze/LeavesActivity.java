@@ -2,6 +2,7 @@ package com.ads.taskeaze;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -19,6 +20,15 @@ public class LeavesActivity extends SupportActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        findViewById(R.id.add_leaves).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LeavesActivity.this, NewLeavesActivity.class);
+                intent.setAction("Add Leave");
+                startActivity(intent);
             }
         });
     }

@@ -103,7 +103,6 @@ public class MeetingsFragment extends Fragment {
         db = Room.databaseBuilder(getActivity(),
                 AppDatabase.class, "taskeaze.db").build();
 
-        loadDataFromDB();
         ((FloatingActionButton)viewFragment.findViewById(R.id.fragment_meeting_add_meeting)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,6 +119,7 @@ public class MeetingsFragment extends Fragment {
         ((EditText) viewFragment.findViewById(R.id.fragment_meeting_date_id)).setText(CommonFunc.getTodayDate());
 
 
+        loadDataFromDB(CommonFunc.getTodayDate());
         viewFragment.findViewById(R.id.fragment_meeting_date_id).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,14 +130,22 @@ public class MeetingsFragment extends Fragment {
         return viewFragment;
     }
 
-    private void loadDataFromDB() {
+    private void loadDataFromDB(String date) {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         executorService.execute(new Runnable() {
             @Override
             public void run() {
                 List<OfflineMeetings> offlineMeetings =
-                        db.offlineMeetingsDAO().getAllMeetingsDate(((EditText)viewFragment.findViewById(R.id.fragment_meeting_date_id)).getText().toString());
+                        db.offlineMeetingsDAO().getAllMeetingsDate(date);
 
+
+                if(offlineMeetings.size()>0){
+                    viewFragment.findViewById(R.id.fragment_meeting_no_meeting_found).setVisibility(View.GONE);
+                }
+                else{
+                    viewFragment.findViewById(R.id.fragment_meeting_no_meeting_found).setVisibility(View.GONE);
+
+                }
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -183,7 +191,7 @@ public class MeetingsFragment extends Fragment {
                         }
 
                         ((EditText) viewFragment.findViewById(R.id.fragment_meeting_date_id)).setText(formattedDay + "-" + (formattedMonth) + "-" + year);
-                        loadDataFromDB();
+                        loadDataFromDB(((EditText)viewFragment.findViewById(R.id.fragment_meeting_date_id)).getText().toString());
                     }
                 }, mYear, mMonth, mDay);
         datePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {

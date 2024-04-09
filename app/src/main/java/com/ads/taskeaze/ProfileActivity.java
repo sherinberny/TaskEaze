@@ -102,9 +102,6 @@ public class ProfileActivity  extends SupportActivity {
 //
          ivimage = findViewById(R.id.profile_image);
 
-
-
-
         editBtn = findViewById(R.id.edit_btn);
         profileCancelBtn = findViewById(R.id.profileCancel_btn);
         profileUpdateBtn = findViewById(R.id.profileUpdate_btn);
