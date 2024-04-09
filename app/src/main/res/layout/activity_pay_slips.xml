@@ -1,9 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".PaySlipsActivity">
+    android:layout_height="wrap_content"
+    android:background="@color/colorTransparent"
+    android:padding="16dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Header -->
+    <LinearLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewEmployeeName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="John Doe"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewEmployeeId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EMP123"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/workhrsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@id/headerLayout"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Hours: "
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewHrs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="80 Hrs"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <!-- Salary Components -->
+    <LinearLayout
+        android:id="@+id/salaryLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/headerLayout"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/textViewSalary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Salary: $5000"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textViewBonus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bonus: $1000"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <!-- Deductions -->
+    <LinearLayout
+        android:id="@+id/deductionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/salaryLayout"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/textViewTax"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tax: -$500"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textViewInsurance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Insurance: -$200"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <!-- Net Pay -->
+    <TextView
+        android:id="@+id/textViewNetPay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Net Pay: $6300"
+        android:layout_below="@id/deductionLayout"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp" />
+
+    <!-- Download Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/buttonDownload"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_download"
+        android:background="@color/colorTransparent"
+        android:layout_below="@id/textViewNetPay"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp" />
+
+    <!-- Company Logo -->
+    <ImageView
+        android:id="@+id/imageViewCompanyLogo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_taskeaze_fg"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp" />
+
+</RelativeLayout>
