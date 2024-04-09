@@ -2,19 +2,18 @@ package com.ads.taskeaze;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -28,7 +27,6 @@ import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,33 +38,38 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 
+import com.ads.taskeaze.database.AppDatabase;
 import com.ads.taskeaze.locationClasses.LocationUpdateListener;
 import com.ads.taskeaze.locationClasses.MyLocationManager;
 import com.ads.taskeaze.model.LastSubmitedModel;
 import com.ads.taskeaze.model.TravelImageModel;
+import com.ads.taskeaze.model.entities.OfflineMeetings;
 import com.ads.taskeaze.utils.CommonFunc;
 import com.ads.taskeaze.utils.ImageUtility;
-import com.ads.taskeaze.utils.NetworkUtils;
 import com.ads.taskeaze.utils.PermissionUtils;
 import com.ads.taskeaze.utils.PreferenceUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.io.FileDescriptor;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Timer;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 
@@ -91,6 +94,8 @@ public class NewMeetingsActivity extends SupportActivity implements LocationUpda
     private long intimemillis;
     private Uri uriCachedBuffer = null;
 
+    private boolean isMockLocEnabled = false;
+
     private LinkedList<TravelImageModel> meetingImageModels = new LinkedList<>();
     private NewMeetingImageAdapter travelImageAdapter = null;
 
@@ -100,6 +105,10 @@ public class NewMeetingsActivity extends SupportActivity implements LocationUpda
     Uri image_uri;
 
     String mot = "";
+    Location locationOfUserCurrentLoc = null;
+
+    AppDatabase db = null;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +124,8 @@ public class NewMeetingsActivity extends SupportActivity implements LocationUpda
             }
         });
 
+        db = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "taskeaze.db").build();
 
         startLocationUpdates();
         findViewById(R.id.new_meeting_location_edittext_id).setOnClickListener(new View.OnClickListener() {
@@ -187,7 +198,7 @@ public class NewMeetingsActivity extends SupportActivity implements LocationUpda
             @Override
             public void onClick(View v) {
 
-                ResetAllViews();
+               saveMeeting();
             }
         });
 
@@ -203,6 +214,119 @@ public class NewMeetingsActivity extends SupportActivity implements LocationUpda
             }
         });
         
+    }
+
+    private void saveMeeting() {
+        String tempStatus = "";
+        String tempAttachment = "";
+        String tempInTime = "";
+        String tempOutTime = "";
+        String tempFullName = "";
+        String tempPhone = "";
+        String tempLoc = "";
+        String tempRemark = "";
+        String travelleddist = "";
+        String tempMot = "";
+        String tempPurpose = "";
+        String tempFOllowUpDate = "";
+        String tempFollowupTime = "";
+        LatLng latLngCurrent = new LatLng(locationOfUserCurrentLoc.getLatitude(),
+                locationOfUserCurrentLoc.getLongitude());
+        LastSubmitedModel lastSubmitedModel = PreferenceUtils.getThelastSubmitedAddress(NewMeetingsActivity.this);
+        tempStatus = "Completed";
+        tempAttachment = "";
+        if (meetingImageModels.size() > 1) {
+            ArrayList<TravelImageModel> models = new ArrayList<>();
+            for (int i = 0; i < meetingImageModels.size(); i++) {
+                if (!meetingImageModels.get(i).isAddImageButton()) {
+                    models.add(meetingImageModels.get(i));
+                }
+            }
+            for (int i = 0; i < models.size(); i++) {
+                if (models.size() == 1) {
+                    tempAttachment = models.get(i).get_b64String();
+                } else {
+                    if (!tempAttachment.isEmpty())
+                        tempAttachment = tempAttachment + "," + models.get(i).get_b64String();
+                    else
+                        tempAttachment = models.get(i).get_b64String();
+                }
+            }
+        }
+          /*  tempOnDate = CommonFunc.getTodayDate();
+            tempOnTime = ((EditText) findViewById(R.id.fragment_direct_vist_time_edittext_id)).getText().toString();*/
+        tempFullName = ((EditText) findViewById(R.id.new_meeting_customer_name_edittext_id)).getText().toString();
+        tempPhone = ((EditText) findViewById(R.id.new_meeting_mobile_no_edittext_id)).getText().toString();
+        tempLoc = ((EditText) findViewById(R.id.new_meeting_location_edittext_id)).getText().toString();
+        tempRemark = ((EditText) findViewById(R.id.new_meeting_notes_edittext_id)).getText().toString();
+        tempInTime = ((EditText) findViewById(R.id.fragment_add_in_time_id)).getText().toString();
+        tempOutTime = ((EditText) findViewById(R.id.fragment_add_out_time_id)).getText().toString();
+        tempMot = String.valueOf(((Spinner) findViewById(R.id.new_meeting_travel_by_spinner_id)).getSelectedItem());
+        travelleddist = ((EditText) findViewById(R.id.new_meeting_distance_travelled_id)).getText().toString().replace("Km", "").replace(" ", "");
+        tempPurpose = String.valueOf(((Spinner) findViewById(R.id.fragment_directvisit_meeting_purpose_id)).getSelectedItem());
+        if (((CheckBox) findViewById(R.id.fragment_direct_followup_checkbox)).isChecked()) {
+            tempFOllowUpDate = ((EditText) findViewById(R.id.new_meeting_followup_date_edittext_id)).
+                    getText().toString();
+            tempFollowupTime = ((EditText) findViewById(R.id.new_meeting_followup_time_edittext_id)).
+                    getText().toString();
+        }
+        if (LastLat.equals(null) || LastLat.equals("")) {
+            assert lastSubmitedModel != null;
+            LastLoc = lastSubmitedModel.getLastSubmitedAddress();
+            LastLat = lastSubmitedModel.getLastSubmitedAddressLat();
+            LastLng = lastSubmitedModel.getLastSubmitedAddressLng();
+        }
+
+        if (tempFullName.equals("") || tempPhone.equals("") || tempInTime.equals("") || tempOutTime.equals("") ||
+                (((CheckBox) findViewById(R.id.fragment_direct_followup_checkbox)).isChecked() && (tempFollowupTime.equals("") || tempFOllowUpDate.equals("")))
+                ||(((Spinner) findViewById(R.id.new_meeting_travel_by_spinner_id)).getSelectedItem().toString()).contains("Select")
+                ||(((Spinner) findViewById(R.id.new_meeting_travel_by_spinner_id)).getSelectedItem().toString()).contains("Select")
+        ) {
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(NewMeetingsActivity.this, "Please enter all fields", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            OfflineMeetings offlineMeetings = new OfflineMeetings();
+            offlineMeetings.setAttachment(tempAttachment);
+            offlineMeetings.setEndLatitude(String.valueOf(latLngCurrent.latitude));
+            offlineMeetings.setEndLocation(tempLoc);
+            offlineMeetings.setEndLongitude(String.valueOf(latLngCurrent.longitude));
+            if (tempFOllowUpDate != null && tempFollowupTime != null) {
+                offlineMeetings.setFollowupDateRefNo(CommonFunc.getDateToTimeStamp(tempFOllowUpDate + " " + tempFollowupTime, NewMeetingsActivity.this));
+                offlineMeetings.setFollowupmobiledate(tempFOllowUpDate.replace("/", "-"));
+                offlineMeetings.setFollowUpTime(tempFollowupTime);
+            }
+            offlineMeetings.setInTime(tempInTime);
+            offlineMeetings.setOutTime(tempOutTime);
+            offlineMeetings.setStatus(tempStatus);
+            offlineMeetings.setFullName(tempFullName);
+            offlineMeetings.setPhone(tempPhone.replace(" ", ""));
+            offlineMeetings.setRemarks(tempRemark);
+            offlineMeetings.setIsMockLocation((isMockLocEnabled ? "Yes" : "No"));
+            offlineMeetings.setModeOfTravel(tempMot);
+            offlineMeetings.setRootDistanceTravelled(travelleddist);
+            offlineMeetings.setStartLocation(LastLoc);
+            offlineMeetings.setStartLat(LastLat);
+            offlineMeetings.setStartLng(LastLng);
+            offlineMeetings.setModeOfTravel(tempMot);
+            offlineMeetings.setPurpose(tempPurpose);
+            offlineMeetings.setMeetingDateRefNo(CommonFunc.getCurrentSystemTimeStamp() + "");
+            offlineMeetings.setOnDate(CommonFunc.getTodayDate());
+
+            ExecutorService executorService = Executors.newSingleThreadExecutor();
+            executorService.execute(new Runnable() {
+                @Override
+                public void run() {
+                    db.offlineMeetingsDAO().insertMeetings(offlineMeetings);
+                }
+            });
+            ResetAllViews();
+
+        }
     }
 
     private void ResetAllViews() {
@@ -273,7 +397,7 @@ public class NewMeetingsActivity extends SupportActivity implements LocationUpda
     public void onLocationUpdate(Location location) {
         // Handle location updates
         dismissProgressDialog();
-
+        isMockLocEnabled = location.isFromMockProvider();
         locationManager.stopLocationUpdates();
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
@@ -282,14 +406,14 @@ public class NewMeetingsActivity extends SupportActivity implements LocationUpda
         String timeRef = String.valueOf(CommonFunc.getCurrentSystemTimeStamp());
 
         ((EditText)findViewById(R.id.new_meeting_location_edittext_id)).setText(address);
-
-
-        GetlastLocationDistance(location);
+        
+        locationOfUserCurrentLoc = location;
+        GetlastLocationDistance();
 
     }
 
-    private void GetlastLocationDistance(Location locationOfUserCurrentLoc) {
-
+    private void GetlastLocationDistance() {
+       
         LastSubmitedModel lastSubmitedModel = PreferenceUtils.getThelastSubmitedAddress(this);
         assert lastSubmitedModel != null;
         LastLoc = lastSubmitedModel.getLastSubmitedAddress();
@@ -483,7 +607,7 @@ public class NewMeetingsActivity extends SupportActivity implements LocationUpda
 
 
 
-                        ((EditText)findViewById(viewId)).setText(formattedDay + "/" + (formattedMonth) + "/" + year);
+                        ((EditText)findViewById(viewId)).setText(formattedDay + "-" + (formattedMonth) + "-" + year);
                         ((EditText)findViewById(viewId)).clearFocus();
 
 

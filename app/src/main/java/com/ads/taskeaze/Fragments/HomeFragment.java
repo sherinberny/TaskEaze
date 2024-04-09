@@ -22,6 +22,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.room.Room;
 
 import android.os.Handler;
 import android.util.Log;
@@ -35,12 +36,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ads.taskeaze.R;
+import com.ads.taskeaze.database.AppDatabase;
 import com.ads.taskeaze.locationClasses.LocationUpdateListener;
 import com.ads.taskeaze.locationClasses.MyLocationManager;
+import com.ads.taskeaze.model.entities.OfflineAttendanceCheckIn;
+import com.ads.taskeaze.model.entities.OfflineAttendanceCheckOut;
 import com.ads.taskeaze.utils.CommonFunc;
 import com.ads.taskeaze.utils.PreferenceUtils;
 
+import java.util.Objects;
 import java.util.Timer;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,6 +75,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Loca
     private static final float MIN_DISTANCE_CHANGE = 10.0f; // 10 meters
 
     private MyLocationManager locationManager;
+
+    AppDatabase db = null;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -119,6 +128,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Loca
 
         settingView();
 
+        db = Room.databaseBuilder(getActivity().getApplicationContext(),
+                AppDatabase.class, "taskeaze.db").build();
         return viewFragment;
     }
 
@@ -198,6 +209,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Loca
     public void onResume() {
         super.onResume();
         settingView();
+        db = Room.databaseBuilder(getActivity().getApplicationContext(),
+                AppDatabase.class, "taskeaze.db").build();
     }
 
 
@@ -411,11 +424,22 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Loca
 
         if (((LinearLayout) viewFragment.findViewById(R.id.checkinLayout))
                 .getVisibility() == View.VISIBLE) {
-          /*  if ((new OfflineDatabase(getActivity()).addCheckInDetails(timeRef, String.valueOf(latitude), String.valueOf(longitude),
-                    address, timeRef, CommonFunc.getTodayDate())) == -1) {
-                dismissProgressDialog();
-                Toast.makeText(getActivity(), "Something wrong happened", Toast.LENGTH_SHORT).show();
-            } else {*/
+
+            OfflineAttendanceCheckIn checkin = new OfflineAttendanceCheckIn();
+            checkin.checkInTime = timeRef;
+            checkin.latitude = String.valueOf(latitude);
+            checkin.longitude = String.valueOf(longitude);
+            checkin.location = address;
+            checkin.referenceId = timeRef;
+            checkin.date = CommonFunc.getTodayDate();
+            ExecutorService executorService = Executors.newSingleThreadExecutor();
+            executorService.execute(new Runnable() {
+                @Override
+                public void run() {
+                    db.offlineAttendanceCheckInDao().insertCheckIn(checkin);
+                }
+            });
+
                 if (PreferenceUtils.setUserHasCheckedIn(getActivity(), timeRef)) {
                     if (PreferenceUtils.addCheckInTimeToSharedPreference(getActivity(), Long.parseLong(timeRef))) {
                         PreferenceUtils.setCheckInLocationToSharedPreference(getActivity(), address);
@@ -430,14 +454,25 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Loca
 
                     }
                 }
-         //   }
         }
         else{
-           /* if ((new OfflineDatabase(getActivity()).addCheckOutDetails(timeRef, timeRef, String.valueOf(latitude), String.valueOf(longitude),
-                    address, CommonFunc.getTodayDate(), PreferenceUtils.getCheckedInUserAttenceId(getActivity()))) == -1) {
-                dismissProgressDialog();
-                Toast.makeText(getActivity(), "Something wrong happened", Toast.LENGTH_SHORT).show();
-            } else {*/
+
+            OfflineAttendanceCheckOut checkout = new OfflineAttendanceCheckOut();
+            checkout.checkInRefId = PreferenceUtils.getCheckedInUserAttenceId(requireActivity());
+            checkout.latitude = String.valueOf(latitude);
+            checkout.longitude = String.valueOf(longitude);
+            checkout.location = address;
+            checkout.referenceId = timeRef;
+            checkout.checkOutTime = timeRef;
+            checkout.date = CommonFunc.getTodayDate();
+            ExecutorService executorService = Executors.newSingleThreadExecutor();
+            executorService.execute(new Runnable() {
+                @Override
+                public void run() {
+                    db.offlineAttendanceCheckOutDao().insertCheckOut(checkout);
+                }
+            });
+
             if (PreferenceUtils.setUserHasCheckedOut(getActivity())) {
                 if (PreferenceUtils.addCheckOutTimeToSharedPreference(getActivity(), Long.parseLong(timeRef))) {
                     PreferenceUtils.setCheckInLocationToSharedPreference(getActivity(), address);
@@ -458,7 +493,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Loca
                     dismissProgressDialog();
                 }
             }
-       // }
     }
 
 

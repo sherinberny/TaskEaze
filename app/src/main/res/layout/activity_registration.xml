@@ -132,13 +132,15 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/sendotp_btn"
                 android:layout_width="250dp"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_margin="22dp"
                 android:textSize="15sp"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:text="@string/sendme_otp_btn"
                 android:textColor="@color/white"
-                android:background="@drawable/rounded_button"/>
+                android:background="@drawable/button_rounded_blue"/>
 
         </LinearLayout>
 

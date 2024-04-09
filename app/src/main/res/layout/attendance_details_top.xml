@@ -16,12 +16,13 @@
             android:orientation="horizontal"
             android:weightSum="3">
 
+
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="250dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_gravity="center"
-                android:layout_weight="1">
+                android:layout_weight="0.5">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/attendance_date"
@@ -34,7 +35,7 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="300dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_weight="1"
@@ -54,7 +55,7 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="300dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_weight="1"
@@ -70,6 +71,23 @@
                         android:textColor="@color/colorPrimaryDark"
                         android:textStyle="bold"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_weight="0.5">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/attendance_hrs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hours"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

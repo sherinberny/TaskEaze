@@ -1,5 +1,7 @@
 package com.ads.taskeaze.Fragments;
 
+import static com.ads.taskeaze.utils.ConstantUtils.FORMAT_CALENDAR_EVENT;
+
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,6 +10,9 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,13 +24,20 @@ import android.widget.Toast;
 
 import com.ads.taskeaze.NewMeetingsActivity;
 import com.ads.taskeaze.R;
+import com.ads.taskeaze.adapters.MeetingsAdapter;
+import com.ads.taskeaze.database.AppDatabase;
+import com.ads.taskeaze.model.entities.OfflineMeetings;
 import com.ads.taskeaze.utils.CommonFunc;
 import com.ads.taskeaze.utils.PreferenceUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,6 +56,10 @@ public class MeetingsFragment extends Fragment {
     private String mParam2;
 
     View viewFragment = null;
+
+    RecyclerView meetingrecyclerView = null;
+
+    AppDatabase db = null;
     public MeetingsFragment() {
         // Required empty public constructor
     }
@@ -81,7 +97,13 @@ public class MeetingsFragment extends Fragment {
         // Inflate the layout for this fragment
         viewFragment =  inflater.inflate(R.layout.fragment_meetings, container, false);
 
+        meetingrecyclerView = viewFragment.findViewById(R.id.fragment_meeting_recycleview_id);
+        meetingrecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        db = Room.databaseBuilder(getActivity(),
+                AppDatabase.class, "taskeaze.db").build();
+
+        loadDataFromDB();
         ((FloatingActionButton)viewFragment.findViewById(R.id.fragment_meeting_add_meeting)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,9 +130,30 @@ public class MeetingsFragment extends Fragment {
         return viewFragment;
     }
 
+    private void loadDataFromDB() {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                List<OfflineMeetings> offlineMeetings =
+                        db.offlineMeetingsDAO().getAllMeetingsDate(((EditText)viewFragment.findViewById(R.id.fragment_meeting_date_id)).getText().toString());
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        MeetingsAdapter adapter = new MeetingsAdapter(offlineMeetings);
+                        meetingrecyclerView.setAdapter(adapter);
+                    }
+                });
+            }
+        });
+
+    }
+
+
     private void opendatePickerToGetTheMeetingDate() {
 
-        SimpleDateFormat mDF = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat mDF = new SimpleDateFormat(FORMAT_CALENDAR_EVENT);
         Date today = new Date();
         mDF.format(today);
         final Calendar c = Calendar.getInstance();
@@ -139,9 +182,8 @@ public class MeetingsFragment extends Fragment {
                             Log.e("month ", " " + m);
                         }
 
-                        ((EditText) viewFragment.findViewById(R.id.fragment_meeting_date_id)).setText(formattedDay + "/" + (formattedMonth) + "/" + year);
-
-
+                        ((EditText) viewFragment.findViewById(R.id.fragment_meeting_date_id)).setText(formattedDay + "-" + (formattedMonth) + "-" + year);
+                        loadDataFromDB();
                     }
                 }, mYear, mMonth, mDay);
         datePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {

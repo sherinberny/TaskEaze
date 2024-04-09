@@ -7,14 +7,10 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.window.SplashScreen;
 
-import com.ads.taskeaze.utils.PermissionUtils;
 import com.ads.taskeaze.utils.PreferenceUtils;
 
 import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class SplashActivity extends AppCompatActivity {
     private Dialog dialog = null;

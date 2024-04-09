@@ -67,8 +67,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
@@ -105,6 +107,20 @@ public class CommonFunc {
 
         }
 
+    }
+    public static String getDateToTimeStamp(String str_date, Context context) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm a");
+        Date date = null;
+        try {
+            date = formatter.parse(str_date);
+            return date.getTime() + "";
+        } catch (ParseException e) {
+            Toast.makeText(context, "Error:- " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            return getCurrentSystemTimeStamp() + "";
+        }
+    }
+    public static String convertTimestampToDateWithTimeToServer(String dateInMilliseconds) {
+        return DateFormat.format("dd-MM-yyyy HH:mm:ss", Long.parseLong(dateInMilliseconds)).toString();
     }
 
     public static String convertImageToBase64(Bitmap bitmap, Context context) {
@@ -178,8 +194,7 @@ public class CommonFunc {
     public static String getTodayDate() {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat(FORMAT_CALENDAR_EVENT);
-        String formattedDate = df.format(c.getTime());
-        return formattedDate;
+        return df.format(c.getTime());
     }
 
     public static String getTodayDateForHome() {
@@ -223,6 +238,13 @@ public class CommonFunc {
         return String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millis),
                 TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
                 TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
+
+    }
+
+    public static String getDurationStringattendance(long millis) {
+
+        return String.format("%02d:%02d", TimeUnit.MILLISECONDS.toHours(millis),
+                TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)));
 
     }
 

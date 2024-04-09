@@ -19,8 +19,11 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.room.Room;
 
 import com.ads.taskeaze.Fragments.OTPFragment;
+import com.ads.taskeaze.database.AppDatabase;
+import com.ads.taskeaze.model.entities.OfflineUser;
 import com.ads.taskeaze.utils.PreferenceUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,6 +40,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -46,6 +51,7 @@ public class RegistrationActivity extends AppCompatActivity {
     String phoneNumber = "";
 
     Context context;
+    AppDatabase db = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +61,9 @@ public class RegistrationActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         AppCompatButton otpButton = findViewById(R.id.sendotp_btn);
+
+         db = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "taskeaze.db").build();
 
 
         otpButton.setOnClickListener(new View.OnClickListener() {
@@ -221,6 +230,8 @@ public class RegistrationActivity extends AppCompatActivity {
                     String userName = dataSnapshot.child("userName").getValue(String.class);
                     String department = dataSnapshot.child("Dept").getValue(String.class);
                     String email = dataSnapshot.child("emailAddress").getValue(String.class);
+                    String phone = dataSnapshot.child("phoneNumber").getValue(String.class);
+                    String image = dataSnapshot.child("image").getValue(String.class);
                     // Add more fields as needed
 
                     // Now you can use the retrieved details
@@ -228,10 +239,26 @@ public class RegistrationActivity extends AppCompatActivity {
                     Log.d("UserDetails", "Address: " + address);
                     Log.d("UserDetails", "FirstName: " + firstName);
 
+
+                    OfflineUser newUser = new OfflineUser();
+                    newUser.userID = userId;
+                    newUser.address = address;
+                    newUser.firstName = firstName;
+                    newUser.lastName = lastName;
+                    newUser.userName = userName;
+                    newUser.department = department;
+                    newUser.email = email;
+                    newUser.phone = phone;
+                    newUser.image = image;
+                    ExecutorService executorService = Executors.newSingleThreadExecutor();
+                    executorService.execute(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    db.offlineUserDao().insertUser(newUser);
+                                                }
+                                            });
                     PreferenceUtils.addUserDetailsToPreferences(context, phoneNumber, email, firstName + " " + lastName, userId,
                             department, address, userName);
-
-                //    new OfflineDatabase(context).addUserDetailsToDB(userId, userName, department, phoneNumber, email, address, firstName, lastName);
 
                     reqForLoginAfterOTPMatched();
 

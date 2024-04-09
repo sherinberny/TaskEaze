@@ -54,7 +54,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         {
             ((HolderMeetingDataRow) holder).textViewDate.setText(""+attendanceModels.get(holder.getAdapterPosition()).getAttendanceDate());
             if(!attendanceModels.get(holder.getAdapterPosition()).getCheckintime().equals("NA")) {
-                ((HolderMeetingDataRow) holder).textViewCheckinTime.setText(CommonFunc.convertTimestampToTime(attendanceModels.get(holder.getAdapterPosition()).getCheckintime()));
+                ((HolderMeetingDataRow) holder).textViewCheckinTime.setText(attendanceModels.get(holder.getAdapterPosition()).getCheckintime());
             }
             else{
                 ((HolderMeetingDataRow) holder).textViewCheckinTime.setText(attendanceModels.get(holder.getAdapterPosition()).getCheckintime());
@@ -62,11 +62,12 @@ public class AttendanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             }
             ((HolderMeetingDataRow) holder).textViewCheckinLoc.setText(""+attendanceModels.get(holder.getAdapterPosition()).getCheckinlocation());
             if(!attendanceModels.get(holder.getAdapterPosition()).getCheckouttime().equals("NA")) {
-                ((HolderMeetingDataRow) holder).textViewCheckoutTime.setText(CommonFunc.convertTimestampToTime(attendanceModels.get(holder.getAdapterPosition()).getCheckouttime()));
+                ((HolderMeetingDataRow) holder).textViewCheckoutTime.setText(attendanceModels.get(holder.getAdapterPosition()).getCheckouttime());
             }
             else {
                 ((HolderMeetingDataRow) holder).textViewCheckoutTime.setText(attendanceModels.get(holder.getAdapterPosition()).getCheckouttime());
             }
+            ((HolderMeetingDataRow) holder).textViewHrs.setText(""+attendanceModels.get(holder.getAdapterPosition()).getWorkingHrs() + " Hrs");
             ((HolderMeetingDataRow) holder).textViewCheckoutLoc.setText(""+attendanceModels.get(holder.getAdapterPosition()).getCheckoutlocation());
         }
     }
@@ -98,10 +99,11 @@ public class AttendanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private class HolderMeetingDataRow extends RecyclerView.ViewHolder
     {
-        AppCompatTextView textViewDate=null,textViewCheckinTime=null,textViewCheckinLoc=null,textViewCheckoutTime=null,textViewCheckoutLoc=null;
+        AppCompatTextView textViewHrs=null,textViewDate = null, textViewCheckinTime=null,textViewCheckinLoc=null,textViewCheckoutTime=null,textViewCheckoutLoc=null;
         LinearLayoutCompat layoutCompatClick=null;
         public HolderMeetingDataRow(View itemView) {
             super(itemView);
+            this.textViewHrs=itemView.findViewById(R.id.attendance_hrs);
             this.textViewDate=itemView.findViewById(R.id.attendance_date);
             this.textViewCheckinTime=itemView.findViewById(R.id.checkin_time);
             this.textViewCheckoutTime=itemView.findViewById(R.id.checkout_time);

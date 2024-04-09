@@ -11,6 +11,15 @@ public class AttendanceModel {
     private String checkouttime;
 
     private String checkoutlocation;
+    private String workingHrs;
+
+    public String getWorkingHrs() {
+        return workingHrs;
+    }
+
+    public void setWorkingHrs(String workingHrs) {
+        this.workingHrs = workingHrs;
+    }
 
     public String getAttendanceDate() {
         return attendanceDate;

@@ -129,7 +129,7 @@ public class ConstantUtils {
     public static final String KEY_LEAVE_REQUEST_TABLE = "leaveRequest";
     public static final String KEY_STATUS = "status";
 
-    public static final String FORMAT_CALENDAR_EVENT = "MM/dd/yyyy";
+    public static final String FORMAT_CALENDAR_EVENT = "dd-MM-yyyy";
     public static final String FORMAT_CALENDAR_HOME = "EEE,MMM d";
     public static final String FORMAT_TIME_HOME = "hh:mm a";
 

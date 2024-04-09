@@ -17,17 +17,17 @@
             android:weightSum="3">
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="250dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="1">
+                android:layout_weight="0.5">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/attendance_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="23/09/2020"
+                    android:text="12-08-2024"
                     android:textColor="@color/black"
                     android:textSize="7sp"
                     android:layout_gravity="center_vertical"
@@ -36,7 +36,7 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="300dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_weight="1"
@@ -81,7 +81,7 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="300dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_weight="1"
@@ -124,6 +124,26 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/attendance_hrs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="4 Hrs"
+                    android:textColor="@color/black"
+                    android:textSize="7sp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
