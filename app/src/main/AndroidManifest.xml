@@ -31,6 +31,9 @@
         android:theme="@style/Theme.TaskEaze"
         tools:targetApi="31">
         <activity
+            android:name=".NewLeavesActivity"
+            android:exported="false" />
+        <activity
             android:name=".AttendanceActivity"
             android:exported="false" />
         <activity
