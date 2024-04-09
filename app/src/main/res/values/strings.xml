@@ -130,7 +130,7 @@
     <string name="txtApprove">Approve</string>
     <string name="txtDeny">Deny</string>
     <string name="txtConfirm">Confirm</string>
-
+    <string name="Info">Info</string>
 
 
 </resources>

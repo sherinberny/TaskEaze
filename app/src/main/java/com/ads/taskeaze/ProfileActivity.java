@@ -34,8 +34,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-
+import android.widget.Toast;
 
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -66,6 +65,7 @@ public class ProfileActivity  extends SupportActivity {
     private FirebaseAuth firebaseAuth;
     private String userId;
     LinearLayout buttonLayout;
+    LinearLayout buttonLinearLayout;
     private DatabaseReference usersRef;
 
     String profileB64;
@@ -93,29 +93,53 @@ public class ProfileActivity  extends SupportActivity {
         phone = findViewById(R.id.profilePhoneNumber);
         empadd = findViewById(R.id.profileAddress);
         empUserName = findViewById(R.id.profileUserName);
-
+//
         edt_name = findViewById(R.id.edit_profileName);
         edt_dept = findViewById(R.id.edit_profileDepartment);
         edt_email = findViewById(R.id.edit_Email);
         edt_address = findViewById(R.id.edit_Address);
         edt_userName = findViewById(R.id.edit_UserName);
+//
+         ivimage = findViewById(R.id.profile_image);
 
-//        ivimage = findViewById(R.id.profile_image);
+
+
 
         editBtn = findViewById(R.id.edit_btn);
         profileCancelBtn = findViewById(R.id.profileCancel_btn);
         profileUpdateBtn = findViewById(R.id.profileUpdate_btn);
+        buttonLinearLayout = findViewById(R.id.button_layout);
 
-        /*ivimage.setOnClickListener(new View.OnClickListener(){
+        ivimage.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 selectUploadImage();
             }
-        });*/
+        });
 
-        editBtn.setOnClickListener((View.OnClickListener) this);
-        profileCancelBtn.setOnClickListener((View.OnClickListener) this);
-        profileUpdateBtn.setOnClickListener((View.OnClickListener) this);
+        editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(getApplicationContext(), "Edit button clicked", Toast.LENGTH_SHORT).show();
+               showEditViewProfile();
+
+            }
+        });
+            profileCancelBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getApplicationContext(), "Edit button clicked", Toast.LENGTH_SHORT).show();
+                    showTextViewProfile();
+                }
+            });
+
+            profileUpdateBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertUpdateDialog();
+                }
+            });
 
         firebaseAuth = FirebaseAuth.getInstance();
         userId = firebaseAuth.getCurrentUser().getUid();
@@ -432,7 +456,7 @@ public class ProfileActivity  extends SupportActivity {
         edt_address.setVisibility(View.GONE);
         edt_userName.setVisibility(View.GONE);
 
-        buttonLayout.setVisibility(View.GONE);
+        buttonLinearLayout.setVisibility(View.GONE);
     }
 
     private void showEditViewProfile() {
@@ -441,14 +465,16 @@ public class ProfileActivity  extends SupportActivity {
         email.setVisibility(View.GONE);
         empadd.setVisibility(View.GONE);
         empUserName.setVisibility(View.GONE);
-
+        editBtn.setVisibility((View.GONE));
+//
         edt_name.setVisibility(View.VISIBLE);
         edt_email.setVisibility(View.VISIBLE);
         edt_dept.setVisibility(View.VISIBLE);
         edt_address.setVisibility(View.VISIBLE);
         edt_userName.setVisibility(View.VISIBLE);
+        buttonLinearLayout.setVisibility(View.VISIBLE);
+        profileUpdateBtn.setVisibility(View.VISIBLE);
 
-        buttonLayout.setVisibility(View.VISIBLE);
     }
 
 
