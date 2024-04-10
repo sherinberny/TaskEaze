@@ -355,12 +355,12 @@ public class ProfileActivity  extends SupportActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     UserModel user = dataSnapshot.getValue(UserModel.class);
-                    if(user.getUserId().equals(userId)) {
+
 //                    if(user.getUserId().equals(userId)) {
                         usersRef.child(dataSnapshot.getKey()).updateChildren(userInfo);
                         break;
 //                    }
-                    }
+
                 }
             }
 
@@ -466,9 +466,7 @@ public class ProfileActivity  extends SupportActivity {
 //                    if(user.getUserId() != null) {
 //
 //                        if(user.getUserId().equals(userId)) {
-                    if (user.getUserId() != null) {
 
-                        if (user.getUserId().equals(userId)) {
                             emname.setText(user.getFirstName() + " " + user.getLastName());
                             edt_name.setText(user.getFirstName() + " " + user.getLastName());
                             empdep.setText(user.getDept());
@@ -487,9 +485,9 @@ public class ProfileActivity  extends SupportActivity {
 
                             break;
 //                        }
-                        }
+
                     }
-                }
+
 //                }
             }
             @Override
