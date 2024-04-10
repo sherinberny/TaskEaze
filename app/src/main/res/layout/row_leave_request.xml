@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
             android:layout_weight="0.2"
+            android:textColor="@color/colorPrimary"
             android:text="@string/txtApprove"
             android:textSize="12sp" />
 
@@ -36,6 +37,7 @@
             android:layout_marginRight="5dp"
             android:layout_weight="0.2"
             android:backgroundTint="#EF5555"
+            android:textColor="@color/colorPrimary"
             android:text="@string/txtDeny"
             android:textSize="12sp" />
     </LinearLayout>

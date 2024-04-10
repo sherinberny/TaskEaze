@@ -63,7 +63,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="20dp"
                         android:hint="@string/Nametxt"
-                        android:text="Test User"
+                        android:text="John"
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 
@@ -103,9 +103,9 @@
                         android:layout_marginStart="50dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="20dp"
-                        android:text="Test User"
+                        android:text="John@Doe"
                         android:textColor="@color/black"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                     <EditText
                         android:id="@+id/edit_UserName"
@@ -146,9 +146,9 @@
                         android:layout_marginStart="50dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="20dp"
-                        android:text="Test User"
+                        android:text="Sales"
                         android:textColor="@color/black"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
 
                     <EditText
@@ -231,9 +231,9 @@
                         android:layout_marginStart="50dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="20dp"
-                        android:text="Test User"
+                        android:text="1234567890"
                         android:textColor="@color/black"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                     <EditText
                         android:id="@+id/editPhone"
@@ -268,8 +268,6 @@
                         android:text="Email" />
 
 
-
-
                     <TextView
                         android:id="@+id/profileEmail"
                         android:layout_width="wrap_content"
@@ -277,9 +275,9 @@
                         android:layout_marginStart="50dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="20dp"
-                        android:text="Test User"
+                        android:text="johndoe@gmail.com"
                         android:textColor="@color/black"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                     <EditText
                         android:id="@+id/edit_Email"
@@ -318,9 +316,9 @@
                         android:layout_marginStart="50dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="20dp"
-                        android:text="Test User"
+                        android:text="12345,StreetA,Burnaby"
                         android:textColor="@color/black"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                     <EditText
                         android:id="@+id/edit_Address"
@@ -356,12 +354,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="22dp"
-                            android:background="@drawable/corner_button_green"
+                            android:background="@drawable/circle_checkout"
                             android:clickable="true"
                             android:focusable="true"
                             android:text="@string/cancel_txt"
                             android:textAllCaps="false"
-                            android:textColor="@color/chat_text"
+                            android:textColor="@color/black"
                             android:textSize="15sp" />
 
                         <androidx.appcompat.widget.AppCompatButton
@@ -369,12 +367,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="22dp"
-                            android:background="@drawable/corner_button_green"
+                            android:background="@drawable/circle_checkout"
                             android:clickable="true"
                             android:focusable="true"
                             android:text="@string/submit_txt"
                             android:textAllCaps="false"
-                            android:textColor="@color/chat_text"
+                            android:textColor="@color/black"
                             android:textSize="15sp" />
                     </LinearLayout>
 

@@ -13,11 +13,14 @@ import static com.google.android.material.internal.ContextUtils.getActivity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.viewmodel.CreationExtras;
 
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -53,9 +56,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import android.Manifest;
 
 public class ProfileActivity  extends SupportActivity {
 
+    private static final int REQUEST_CAMERA = 123;
+    private static final int REQUEST_GALLERY = 124;
+    private static final int REQUEST_CAMERA_PERMISSION = 125;
 
     private TextView emname, empdep, email, phone, empadd, empUserName;
     private EditText edt_name, edt_dept, edt_email, edt_address, edt_userName;
@@ -107,6 +114,11 @@ public class ProfileActivity  extends SupportActivity {
         profileUpdateBtn = findViewById(R.id.profileUpdate_btn);
         buttonLinearLayout = findViewById(R.id.button_layout);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        userId = firebaseAuth.getCurrentUser().getUid();
+
+        getUserInfo(userId);
+
         ivimage.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -126,7 +138,7 @@ public class ProfileActivity  extends SupportActivity {
             profileCancelBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(), "Edit button clicked", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Cancel button clicked", Toast.LENGTH_SHORT).show();
                     showTextViewProfile();
                 }
             });
@@ -142,6 +154,11 @@ public class ProfileActivity  extends SupportActivity {
         userId = firebaseAuth.getCurrentUser().getUid();
 
         getUserInfo(userId);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            // Permission not granted, request it
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+        }
     }
 
 
@@ -150,20 +167,33 @@ public class ProfileActivity  extends SupportActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bitmap bitmap = null;
-        if(requestCode == REQUEST_CAMERA && resultCode == RESULT_OK)
-        {
-            bitmap = uriToBitmap(image_uri);
-            bitmap = CommonFunc.getResizedBitmap(bitmap, 1024);
-
+        if (resultCode == RESULT_OK) {
+            Bitmap bitmap = null;
+            if (requestCode == REQUEST_CAMERA) {
+                bitmap = uriToBitmap(image_uri);
+            } else if (requestCode == REQUEST_GALLERY && data != null && data.getData() != null) {
+                bitmap = uriToBitmap(data.getData());
+            }
+            if (bitmap != null) {
+                bitmap = CommonFunc.getResizedBitmap(bitmap, 1024);
+                converttob64(bitmap);
+            }
         }
-        else if(requestCode == REQUEST_GALLERY && resultCode == RESULT_OK){
-            bitmap = uriToBitmap(data.getData());
-            bitmap = CommonFunc.getResizedBitmap(bitmap, 1024);
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CAMERA_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, proceed to open the camera
+                opencamera();
+            } else {
+                // Permission denied, show a message to the user
+                Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show();
+            }
         }
-        converttob64(bitmap);
-
     }
 
     private void convertb64ToImage(String base64){
@@ -176,10 +206,14 @@ public class ProfileActivity  extends SupportActivity {
     }
 
     private void openGalary() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);//
-        startActivityForResult(Intent.createChooser(intent, "Select Image"), REQUEST_GALLERY);
+        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+        } else {
+            // Permission already granted, proceed to open the camera
+            // Call your camera-related logic here
+            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(cameraIntent, REQUEST_CAMERA);
+        }
     }
 
     private void opencamera(){
@@ -243,9 +277,7 @@ public class ProfileActivity  extends SupportActivity {
 
     }
 
-    private final int REQUEST_CAMERA = 123;
 
-    private final int REQUEST_GALLERY = 124;
 
     private void onRefresh(){
         firebaseAuth = FirebaseAuth.getInstance();
@@ -305,6 +337,10 @@ public class ProfileActivity  extends SupportActivity {
 
     private void updateUserInfo(String userId, String newfName, String newlName, String newEmail, String newUserName, String newAddress, String newDept) {
         Map<String, Object> userInfo = new HashMap<>();
+//       Log.d("tag":"rrr","sdsd"+userId + newfName);
+//        Log.d("name", "First Name: " + firstName +userId);
+
+
         userInfo.put(KEY_FIRST_NAME, newfName);
         userInfo.put(KEY_LAST_NAME, newlName);
         userInfo.put(KEY_USER_NAME, newUserName);
@@ -320,8 +356,10 @@ public class ProfileActivity  extends SupportActivity {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     UserModel user = dataSnapshot.getValue(UserModel.class);
                     if(user.getUserId().equals(userId)) {
+//                    if(user.getUserId().equals(userId)) {
                         usersRef.child(dataSnapshot.getKey()).updateChildren(userInfo);
                         break;
+//                    }
                     }
                 }
             }
@@ -339,78 +377,98 @@ public class ProfileActivity  extends SupportActivity {
 
 
     private void alertUpdateDialog() {
-        if(userId == null) {
-            firebaseAuth = FirebaseAuth.getInstance();
-            userId = firebaseAuth.getCurrentUser().getUid();
-        }
-        android.app.AlertDialog.Builder builder1 = new android.app.AlertDialog.Builder(this);
+        try {
+            if (userId == null) {
+                firebaseAuth = FirebaseAuth.getInstance();
+                userId = firebaseAuth.getCurrentUser().getUid();
 
-        builder1.setMessage("Do you want to update the profile ?");
+            }
+            android.app.AlertDialog.Builder builder1 = new android.app.AlertDialog.Builder(this);
 
-        builder1.setCancelable(true);
+            builder1.setMessage("Do you want to update the profile ?");
 
-        builder1.setPositiveButton(
-                "Yes",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                        try {
-                            String[] names = splitFullName(edt_name.getText().toString().trim());
+            builder1.setCancelable(true);
 
-                            if (names != null) {
-                                // Now you can use names[0] as the first name and names[1] as the last name
-                                String firstName = names[0];
-                                String lastName = names[1];
 
-                                if(edt_email.getText().toString().trim().length()>3 && edt_email.getText().toString().contains("@")) {
-                                    if(edt_dept.getText().toString().trim().length()>2) {
-                                        if(edt_address.getText().toString().trim().length()>3) {
-                                            updateUserInfo(userId, firstName, lastName, edt_email.getText().toString().trim(), edt_userName.getText().toString().trim(),
-                                                    edt_address.getText().toString().trim(), edt_dept.getText().toString().trim());
+            builder1.setPositiveButton(
+                    "Yes",
+
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                            try {
+                                String[] names = splitFullName(edt_name.getText().toString().trim());
+
+                                if (names != null) {
+                                    // Now you can use names[0] as the first name and names[1] as the last name
+                                    String firstName = names[0];
+                                    String lastName = names[1];
+
+                                    if (edt_email.getText().toString().trim().length() > 3 && edt_email.getText().toString().contains("@")) {
+                                        if (edt_dept.getText().toString().trim().length() > 2) {
+                                            if (edt_address.getText().toString().trim().length() > 3) {
+                                                updateUserInfo(userId, firstName, lastName, edt_email.getText().toString().trim(), edt_userName.getText().toString().trim(),
+                                                        edt_address.getText().toString().trim(), edt_dept.getText().toString().trim());
+                                            } else {
+                                                edt_address.setError("Please enter proper address");
+                                            }
+
                                         } else {
-                                            edt_address.setError("Please enter proper address");
+                                            edt_dept.setError("Please enter a valid department");
                                         }
-
                                     } else {
-                                        edt_dept.setError("Please enter a valid department");
+                                        edt_email.setError("Please enter valid email");
                                     }
                                 } else {
-                                    edt_email.setError("Please enter valid email");
+                                    edt_name.setError("Please enter name");
                                 }
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                            else {
-                                edt_name.setError("Please enter name");
-                            }
+                            showTextViewProfile();
+                            getUserInfo(userId);
                         }
-                        catch (Exception e){
-                            e.printStackTrace();
+                    });
+
+            builder1.setNegativeButton(
+                    "No",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
                         }
-                        showTextViewProfile();
-                        getUserInfo(userId);
-                    }
-                });
+                    });
 
-        builder1.setNegativeButton(
-                "No",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                    }
-                });
+            android.app.AlertDialog alertCheckInAlertDialog = builder1.create();
+            alertCheckInAlertDialog.show();
 
-        android.app.AlertDialog alertCheckInAlertDialog = builder1.create();
-        alertCheckInAlertDialog.show();
+
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     private void getUserInfo(String userId) {
         usersRef = FirebaseDatabase.getInstance().getReference(KEY_USER);
-        usersRef.addValueEventListener(new ValueEventListener() {
+        usersRef.addValueEventListener(new ValueEventListener()
+        {
+
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Log.d("Started User", "for");
                     UserModel user = dataSnapshot.getValue(UserModel.class);
-                    if(user.getUserId() != null) {
-                        if(user.getUserId().equals(userId)) {
+                    Log.d("Started", "usedddddrddddddddddd    " + user.getFirstName());
+
+
+//                    if(user.getUserId() != null) {
+//
+//                        if(user.getUserId().equals(userId)) {
+                    if (user.getUserId() != null) {
+
+                        if (user.getUserId().equals(userId)) {
                             emname.setText(user.getFirstName() + " " + user.getLastName());
                             edt_name.setText(user.getFirstName() + " " + user.getLastName());
                             empdep.setText(user.getDept());
@@ -423,14 +481,16 @@ public class ProfileActivity  extends SupportActivity {
                             edt_userName.setText(user.getUserName());
                             phone.setText(user.getPhonenumber());
                             profileB64 = user.getUserImage();
-                            if(profileB64!=null) {
+                            if (profileB64 != null) {
                                 convertb64ToImage(profileB64);
                             }
 
                             break;
+//                        }
                         }
                     }
                 }
+//                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -466,7 +526,9 @@ public class ProfileActivity  extends SupportActivity {
 //
         edt_name.setVisibility(View.VISIBLE);
         edt_email.setVisibility(View.VISIBLE);
+        edt_email.setEnabled(false);
         edt_dept.setVisibility(View.VISIBLE);
+        edt_dept.setEnabled(false);
         edt_address.setVisibility(View.VISIBLE);
         edt_userName.setVisibility(View.VISIBLE);
         buttonLinearLayout.setVisibility(View.VISIBLE);

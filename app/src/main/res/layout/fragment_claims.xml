@@ -87,14 +87,14 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_rounded_blue"
                 android:text="Submit Claim"
-                android:textColor="@color/light_pink" />
+                android:textColor="@color/colorPrimary" />
 
             <Button
                 android:id="@+id/buttonReimburse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Reimburse Claim"
-                android:textColor="@color/light_pink" />
+                android:text="Claim Amount Details"
+                android:textColor="@color/colorPrimary" />
         </LinearLayout>
     </ScrollView>
 
