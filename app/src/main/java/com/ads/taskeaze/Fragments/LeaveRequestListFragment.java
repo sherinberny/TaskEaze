@@ -86,8 +86,8 @@ public class LeaveRequestListFragment extends Fragment {
                         }
                     }
 
-                    leaveRequestAdapter = new LeaveRequestAdapter(getActivity(), leaveRequestList);
-                    leaveRequestRecycler.setAdapter(leaveRequestAdapter);
+                   /* leaveRequestAdapter = new LeaveRequestAdapter(getActivity(), leaveRequestList);
+                    leaveRequestRecycler.setAdapter(leaveRequestAdapter);*/
                 }
 
                 @Override

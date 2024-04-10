@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/CardStyle"
+    >
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/leave_fragment_row_more_days_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="4"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="From"
+                android:textColor="@color/colorPrimary"
+                android:layout_weight="0.7"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/leave_fragment_row_from_textview_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="02/06/2017"
+                android:layout_weight="1.3"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="To"
+                android:textColor="@color/colorPrimary"
+                android:layout_weight="0.7"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/leave_fragment_row_to_textview_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="02/06/2017"
+                android:layout_weight="1.3"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="4"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Type"
+                android:textColor="@color/colorPrimary"
+                android:layout_weight="0.7"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/leave_fragment_row_leave_type_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Fever"
+                android:layout_weight="1.3"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="No of Days"
+                android:textColor="@color/colorPrimary"
+                android:layout_weight="1"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/leave_fragment_row_no_of_days_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="2"
+                android:layout_weight="1"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="4"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Remark"
+                android:textColor="@color/colorPrimary"
+                android:layout_weight="0.7"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/leave_fragment_row_remark_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Fever"
+                android:layout_weight="3.3"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Applied"
+                android:textColor="@color/colorPrimary"
+                android:layout_weight="0.172"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/leave_fragment_row_applied_on"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/date_test"
+                android:layout_weight="0.7"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="3"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Status"
+                android:textColor="@color/colorPrimary"
+                android:layout_weight="0.5"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/leave_fragment_row_status_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Approved"
+                android:layout_weight="1.5"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/leave_fragment_row_cancel_button_id"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                style="@style/buttonStyle"
+                android:text="Cancel"
+                android:layout_height="wrap_content" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.cardview.widget.CardView>

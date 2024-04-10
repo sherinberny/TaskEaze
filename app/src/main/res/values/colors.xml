@@ -11,6 +11,7 @@
     <color name="red">#8B0000</color>
     <color name="bgColor">#30CCF6</color>
     <color name="gray">#a6a6a6</color>
+    <color name="darkgray">#555555</color>
     <color name="light_blue">#e8f9ff</color>
     <color name="rasp_pink">#e25098</color>
     <color name="light_pink">#fc89ac</color>
@@ -21,6 +22,8 @@
     <color name="chat_text">#000000</color>
     <color name="chat_left">#FAF9F6</color>
     <color name="green">#008000</color>
+    <color name="selected_color">#024265</color>
+    <color name="default_color">#6D6D6D</color>
 
 
 </resources>

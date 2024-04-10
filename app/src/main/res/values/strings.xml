@@ -100,7 +100,14 @@
         <item>Report Meeting</item>
         <item>Followup Meeting</item>
         <item>Support Meeting</item>
-        <item>Flight</item>
+    </string-array>
+
+    <string-array name="leaveTypes">
+        <item>Sick Leave</item>
+        <item>Vacation</item>
+        <item>Paid Leave</item>
+        <item>Unpaid Leave</item>
+        <item>Combo Off</item>
     </string-array>
 
     <string name="txtMessageLeft">His Message</string>
@@ -126,11 +133,12 @@
     <string name="txtViewLeaveEndDate">End Date</string>
     <string name="hintLeaveEndDate">Enter Leave End Date</string>
     <string name="btnLeaveRequest">Send Leave Request</string>
-    <string name="txtRequestStatus"></string>
+    <string name="txtRequestStatus">Status</string>
     <string name="txtApprove">Approve</string>
     <string name="txtDeny">Deny</string>
     <string name="txtConfirm">Confirm</string>
     <string name="Info">Info</string>
+    <string name="txtViewLeaveType">Leave Type</string>
 
 
 </resources>

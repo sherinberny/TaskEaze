@@ -32,6 +32,7 @@ import com.ads.taskeaze.Fragments.HomeFragment;
 import com.ads.taskeaze.Fragments.MeetingsFragment;
 import com.ads.taskeaze.Fragments.PerformanceFragment;
 import com.ads.taskeaze.adapters.ViewpagerAdapter;
+import com.ads.taskeaze.chat.ChatListFragment;
 import com.ads.taskeaze.customwidget.NoSwipePager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -213,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ClaimsFragment claimsFragment = new ClaimsFragment();
         adapter.addFrag(claimsFragment, getResources().getString(R.string.claim_txt));
 
-        ChatFragment chatFragment = new ChatFragment();
+        ChatListFragment chatFragment = new ChatListFragment();
         adapter.addFrag(chatFragment, getResources().getString(R.string.chat_txt));
 
         viewPager.setAdapter(adapter);

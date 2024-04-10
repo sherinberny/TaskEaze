@@ -39,6 +39,7 @@ import com.ads.taskeaze.R;
 import com.ads.taskeaze.database.AppDatabase;
 import com.ads.taskeaze.locationClasses.LocationUpdateListener;
 import com.ads.taskeaze.locationClasses.MyLocationManager;
+import com.ads.taskeaze.model.WorkingHoursProgressView;
 import com.ads.taskeaze.model.entities.OfflineAttendanceCheckIn;
 import com.ads.taskeaze.model.entities.OfflineAttendanceCheckOut;
 import com.ads.taskeaze.utils.CommonFunc;
@@ -280,6 +281,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Loca
     void runContiniouslyWorkTime() {
         long millis = CommonFunc.getCurrentSystemTimeStamp() - Long.parseLong(PreferenceUtils.getCheckedInUserAttenceId(getActivity()));
         CommonFunc.getDurationString(millis);
+
         if (isAdded()) {
             if (PreferenceUtils.isCheckedinToday(getActivity()) && PreferenceUtils.isCheckedIn(getActivity())) {
                 ((TextView) viewFragment.findViewById(R.id.work_time))
@@ -475,8 +477,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Loca
 
             if (PreferenceUtils.setUserHasCheckedOut(getActivity())) {
                 if (PreferenceUtils.addCheckOutTimeToSharedPreference(getActivity(), Long.parseLong(timeRef))) {
-                    PreferenceUtils.setCheckInLocationToSharedPreference(getActivity(), address);
-                    // setTimeAndLocation("NA", "--", "--");
 
                     ((LinearLayout) viewFragment.findViewById(R.id.checkinLayout)).setVisibility(View.VISIBLE);
                     ((LinearLayout) viewFragment.findViewById(R.id.checkoutLayout)).setVisibility(View.GONE);

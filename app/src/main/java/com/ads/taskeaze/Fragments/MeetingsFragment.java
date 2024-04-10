@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -124,6 +125,15 @@ public class MeetingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 opendatePickerToGetTheMeetingDate();
+            }
+        });
+
+        ((SwipeRefreshLayout)viewFragment.findViewById(R.id.fragment_meeting_swipe_referesh_id)).setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                ((SwipeRefreshLayout)viewFragment.findViewById(R.id.fragment_meeting_swipe_referesh_id)).setRefreshing(false);
+                loadDataFromDB(((EditText)viewFragment.findViewById(R.id.fragment_meeting_date_id)).getText().toString());
+
             }
         });
 

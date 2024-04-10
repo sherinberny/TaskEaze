@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,8 +22,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ads.taskeaze.R;
+import com.ads.taskeaze.model.LeaveRequest;
 import com.ads.taskeaze.model.LeaveRequestModel;
 import com.ads.taskeaze.model.UserModel;
+import com.ads.taskeaze.utils.CommonFunc;
+import com.ads.taskeaze.utils.PreferenceUtils;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,6 +40,7 @@ import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
@@ -71,6 +78,8 @@ public class NewLeavesActivity extends SupportActivity {
     LocalDate eDate;
     EditText editTxtLeaveStartDate;
     EditText editTxtLeaveEndDate;
+    EditText editTxtLeaveNotes;
+    Spinner editTxtLeaveType;
     TextView txtViewRequestStatus;
     Button btnLeaveRequestConfirm;
     @Override
@@ -90,8 +99,10 @@ public class NewLeavesActivity extends SupportActivity {
         findViewById(R.id.btnSendLeaveRequest).setBackground(getDrawable(R.drawable.button_rounded_blue));
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        dbref = firebaseDatabase.getReference(KEY_USER);
-        userId = firebaseAuth.getCurrentUser().getUid();
+        dbref = firebaseDatabase.getReference("leave_requests").child(PreferenceUtils.getUserIdFromThePreference(NewLeavesActivity.this));
+      //  userId = firebaseAuth.getCurrentUser().getUid();
+
+        String leaveRequestId = dbref.push().getKey();
         status = "";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -99,6 +110,8 @@ public class NewLeavesActivity extends SupportActivity {
 
         editTxtLeaveStartDate = findViewById(R.id.editTxtLeaveStartDate);
         editTxtLeaveEndDate = findViewById(R.id.editTxtLeaveEndDate);
+        editTxtLeaveType = findViewById(R.id.editTxtLeaveType);
+        editTxtLeaveNotes = findViewById(R.id.editTxtLeaveNotes);
 
         DatePicker datePicker = new DatePicker();
         editTxtLeaveStartDate.setOnClickListener(datePicker);
@@ -112,8 +125,11 @@ public class NewLeavesActivity extends SupportActivity {
         btnSendLeaveRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String startDate = editTxtLeaveStartDate.getText().toString().trim();
-                String endDate = editTxtLeaveEndDate.getText().toString().trim();
+
+                String startDate = editTxtLeaveStartDate.getText().toString();
+                String endDate = editTxtLeaveEndDate.getText().toString();
+                String leaveType = editTxtLeaveType.getSelectedItem().toString();
+                String notes = editTxtLeaveNotes.getText().toString();
 
                 if(startDate.length() == 0 || endDate.length() == 0) {
                     Toast.makeText(view.getContext(), "Please enter both date", Toast.LENGTH_SHORT).show();
@@ -130,43 +146,45 @@ public class NewLeavesActivity extends SupportActivity {
                     }
                 }
 
+               // LeaveRequest leaveRequest = new LeaveRequest(startDate, endDate, leaveType, notes, status, CommonFunc.getTodayDate());
 
+// Push the leave request object to the database
+              //  dbref.push().setValue(leaveRequest);
 
-                dbref.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        HashMap<String, String> requestUser = new HashMap<>();
-                        for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            UserModel user = dataSnapshot.getValue(UserModel.class);
-                            if(user.getUserId() != null) {
-                                if(user.getUserId().equals(userId)) {
-                                    firstName = user.getFirstName();
-                                    lastName = user.getLastName();
-                                    department = user.getDept();
+                Map<String, Object> leaveRequestData = new HashMap<>();
+                leaveRequestData.put("startDate", startDate);
+                leaveRequestData.put("endDate", endDate);
+                leaveRequestData.put("leaveType", leaveType);
+                leaveRequestData.put("notes", notes);
+                leaveRequestData.put("status", "Applied");
 
-                                    requestUser = new HashMap<>();
-                                    requestUser.put(KEY_FIRST_NAME, firstName);
-                                    requestUser.put(KEY_LAST_NAME, lastName);
-                                    requestUser.put(KEY_DEPARTMENT, department);
-                                    requestUser.put(KEY_LEAVE_START_DATE, startDate);
-                                    requestUser.put(KEY_LEAVE_END_DATE, endDate);
+                assert leaveRequestId != null;
+                dbref.child(leaveRequestId).setValue(leaveRequestData)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                // Display a toast message
+                                Toast.makeText(NewLeavesActivity.this, "Leave request saved", Toast.LENGTH_SHORT).show();
 
-                                    if(sendLeaveRequest(requestUser)) {
-                                        Toast.makeText(view.getContext(), "Success Leave Request", Toast.LENGTH_SHORT).show();
-                                        createLeaveRequestRecord(requestUser);
-                                    } else {
-                                        Toast.makeText(view.getContext(), "Fail Leave Request, Please try again", Toast.LENGTH_SHORT).show();
-                                    }
-                                    break;
-                                }
+                                editTxtLeaveStartDate.setText("");
+                                editTxtLeaveEndDate.setText("");
+                                editTxtLeaveType.setSelection(0);
+                                editTxtLeaveNotes.setText("");
+
+                                // Refresh the page or take any other action as needed
+                                // For refreshing the page, you can call a method in your fragment
+                                // that reloads the data or updates the UI
+                                // For example:
+                                // refreshLeaveRequestList();
                             }
-                        }
-
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                    }
-                });
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // Handle any errors that may occur during the save operation
+                                Toast.makeText(NewLeavesActivity.this, "Failed to save leave request: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
             }
         });
     }
@@ -189,14 +207,18 @@ public class NewLeavesActivity extends SupportActivity {
             DatePickerDialog datePickerDialog = new DatePickerDialog(
                     view.getContext(), new DatePickerDialog.OnDateSetListener() {
                 @Override
-                public void onDateSet(android.widget.DatePicker datePicker, int i, int i1, int i2) {
-                    String dateMessage = i2 + "-" + (i1 + 1) + "-" + year;
-                    editTxtDate.setText(dateMessage);
+                public void onDateSet(android.widget.DatePicker datePicker, int year, int month, int day) {
+                    // Increment month by 1 since months are zero-based in DatePickerDialog
+                    month = month + 1;
+                    // Format the date as dd-MM-yyyy
+                    String formattedDate = String.format(Locale.getDefault(), "%02d-%02d-%04d", day, month, year);
+                    editTxtDate.setText(formattedDate);
                 }
             }, year, month, day);
             datePickerDialog.show();
         }
     }
+
 
     private String convertStringDate(String date) {
 

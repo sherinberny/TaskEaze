@@ -69,6 +69,9 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -248,6 +251,21 @@ public class CommonFunc {
 
     }
 
+
+    public static long getAutoCheckoutTimeInMillis(long millis){
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(millis);
+
+// Set the time to 11:49 PM
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 49);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+// Get the timestamp
+        return calendar.getTimeInMillis();
+    }
     //// convert bytes to mb
 
 
@@ -256,7 +274,31 @@ public class CommonFunc {
         return calendar.getTimeInMillis();
     }
 
+    public static long getDaysBetween(String startDate, String endDate) {
+        // Define date format
+        DateTimeFormatter formatter = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        }
 
+        // Parse dates
+        LocalDate startLocalDate = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            startLocalDate = LocalDate.parse(startDate, formatter);
+        }
+        LocalDate endLocalDate = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            endLocalDate = LocalDate.parse(endDate, formatter);
+        }
+
+        // Calculate days between dates
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            return ChronoUnit.DAYS.between(startLocalDate, endLocalDate) + 1;
+        }
+        else {
+            return 0;
+        }
+    }
     private static boolean isTimeAutomaticTime(Context c) {
         return Settings.Global.getInt(c.getContentResolver(), Settings.Global.AUTO_TIME, 0) == 1;
     }
